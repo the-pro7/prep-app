@@ -1,15 +1,21 @@
 // import React from 'react'
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
-const Option = ({option, optionClickAction}) => {
+const Option = ({ option, onOptionClicked, selected }) => {
   return (
-    <button className="option" onClick={optionClickAction}>{option}</button>
-  )
-}
+    <button
+      className={selected ? "option selected" : "option"}
+      onClick={onOptionClicked}
+    >
+      {option}
+    </button>
+  );
+};
 
 Option.propTypes = {
   option: PropTypes.string.isRequired,
-  optionClickAction: PropTypes.func.isRequired,
-}
+  selected: PropTypes.bool.isRequired,
+  onOptionClicked: PropTypes.func.isRequired,
+};
 
-export default Option
+export default Option;
