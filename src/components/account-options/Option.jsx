@@ -14,7 +14,7 @@ const Option = ({ option, onOptionClicked, selected }) => {
 
 Option.propTypes = {
   option: PropTypes.string.isRequired,
-  selected: PropTypes.bool.isRequired,
+  // selected: PropTypes.bool.isRequired,
   onOptionClicked: PropTypes.func.isRequired,
 };
 
