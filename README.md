@@ -6,5 +6,5 @@ A prep web app for schools
 - Time stamps for **late**, **early** and **on time**.
 
 # Contact the developers 📧
-* Paul Asitik (backend developer): "pasitik@gmail.com
-* Emmanuel Opoku-Ameyaw (front-end developer): ("Click here")[emmaneuldeprogrammer@gmail.com]
+- Paul Asitik (backend developer): ["pasitik@gmail.com*](pasitik@gmail.com)
+- Emmanuel Opoku-Ameyaw (front-end developer): ["emmaneuldeprogrammer@gmail.com"](emmaneuldeprogrammer@gmail.com)
