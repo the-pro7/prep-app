@@ -2,7 +2,7 @@
 A prep web app for schools
 
 # Here's the cover image of the app
-![Prep App Cover](./cover.png)
+![Prep App Cover]("./cover.png")
 
 ## Abilities of this app ⚡
 - Track students' attendance to prep
