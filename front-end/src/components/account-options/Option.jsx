@@ -1,11 +1,11 @@
 // import React from 'react'
 import PropTypes from "prop-types";
 
-const Option = ({ option, onOptionClicked, selected }) => {
+const Option = ({ option, onOptionClicked, optionClassName }) => {
   return (
     <button
-      className={selected ? "option selected" : "option"}
       onClick={onOptionClicked}
+      className={optionClassName}
     >
       {option}
     </button>
@@ -14,7 +14,7 @@ const Option = ({ option, onOptionClicked, selected }) => {
 
 Option.propTypes = {
   option: PropTypes.string.isRequired,
-  selected: PropTypes.bool.isRequired,
+  selected: PropTypes.string.isRequired,
   onOptionClicked: PropTypes.func.isRequired,
 };
 

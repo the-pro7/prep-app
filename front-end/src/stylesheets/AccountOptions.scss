@@ -5,6 +5,19 @@
     @include flex(center, center, unset, unset);
 }
 
+.role-confirm-dialog {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    display: block;
+    border: 0;
+    padding: 1em;
+
+    &::backdrop {
+        background-color: rgb(0 0 0 / .15);
+    }
+}
+
 .account-options {
     width: 90%;
     max-width: 800px;
