@@ -1,4 +1,5 @@
 const express = require("express")
+const Attendance = require("../models/prepModel")
 
 const router = express.Router()
 
@@ -13,8 +14,16 @@ router.get('/:id', (req, res) => {
 })
 
 // Post attendace
-router.post('/', (req ,res)=>{
-    res.json({mssg: 'Post single attendance'})
+router.post('/', async (req ,res)=>{
+    const {name} = req.body
+
+    try{
+        const attendace = await Attendance.create({name})
+        res.status(200).json(attendace)
+    } catch(err){
+        res.status(400).json({msg: err.message})
+    }
+
 })
 
 
