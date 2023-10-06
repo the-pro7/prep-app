@@ -1,0 +1,92 @@
+@import "./config";
+
+.dashboard-nav {
+    grid-column: span 2;
+    $_light-blue-30: rgb(27, 157, 217, .3);
+    width:45%;
+    max-width: 500px;
+    // height: 100dvh;
+    @include flex(unset, unset, 2em, column);
+    padding-block: 2em;
+    padding-inline: clamp(1em, 2vw, 1.5em);
+    background-color: #d1ecf7;
+
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: weights(bold);
+    }
+
+    .profile {
+        padding: 2em;
+        @include flex(flex-start, center, 1.2em, row);
+        border-radius: 1.5rem;
+        background-color: rgb(27, 157, 217, .5);
+
+        &__user {
+         h3 {
+            margin: 0;
+            font-weight: weights(semi-bold);
+         }
+        }
+
+        &__image {
+            width: 60px;
+            aspect-ratio: 1;
+            background: rgb(188, 186, 186);
+            border-radius: 50%;
+            @include flex(center,center, unset, row);
+        }
+    }
+
+    .actions {
+        @include flex(center, unset, 3em, column);
+
+        // This selector, selects all the direct children of the above element
+        > * {
+            padding: 1em 1em;
+            border: 0;
+            text-align: left;
+            border-radius: 1rem;
+            background-color: $_light-blue-30;
+            width: 70%;
+            font-size: 1.1rem;
+            font-weight: weights(semi-bold);
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+    }
+
+    // Logout button and settings button styles
+    .action__secondary {
+        margin-top: auto;
+        margin-bottom: 1em;
+        @include flex(flex-end, center, .5em, row);
+
+        > * {
+            padding: 1em 1.5em;
+            border-radius: 1rem;
+
+        }
+
+        .settings {
+            background-color: $_light-blue-30;
+        }
+
+        .logout {
+            display: inherit;
+            align-items: center;
+            gap: 1em;
+            justify-content: center;
+            font-weight: weights(semi-bold);
+            width: 40%;
+            background-color: rgb(246, 63, 63, .4);
+            color: #ff2828;
+            max-width: 400px;
+            img {
+                width: 20px;
+            }
+        }
+    }
+}

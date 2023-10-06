@@ -1,0 +1,75 @@
+@import "./config";
+
+.student-dashboard {
+    height: 100dvh;
+    display: flex;
+
+    .student-activity-area {
+        width: 100%;
+
+        @include flex(unset, unset, unset, column);
+
+        .top-nav {
+            height: fit-content;
+            margin-inline: auto 3rem;
+            margin-block: 2em;
+            display: flex;
+            gap: 1em;
+
+            > *{
+                padding: 1em 1.5em;
+                border-radius: 1rem;
+            }
+
+            .notifications {
+                background-color: rgb(0, 0, 0, .1);
+            }
+
+            .new-request {
+                display: flex;
+                align-items: center;
+                gap: .5em;
+                background-color: #35E11966;
+                color: #289915;
+                font-weight: weights(semi-bold);
+            }
+        }
+    }
+}
+
+// For student time logged i
+.time-box {
+    align-self: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: 1em;
+    border-radius: 1.5rem;
+    background-color: #FBDBE0;
+
+    .time-logged-in {
+        color: #ae1531ed;
+        font-size: 1.2rem;
+    }
+
+    .time-status {
+        @include flex(center, center, 0, column);
+
+        .time {
+            margin: 0;
+            font-size: 10rem;
+            color: #FF2828;
+
+            .modulation {
+                font-size: 3rem;
+                margin-left: -1em;
+            }
+        }
+
+        .status-text {
+            color: #FF2828;
+            font-size: 2rem;
+            letter-spacing: 1.5px;
+            margin-top: -1em;
+        }
+    }
+}

@@ -16,11 +16,11 @@ const App = () => {
     <>
       <AuthProvider>
         <RoleProvder>
-          <h1
+          {/* <h1
             style={{ textAlign: 'center', fontSize: '3rem', marginTop: '1rem' }}
           >
             Prep App
-          </h1>
+          </h1> */}
           <Routes>
             <Route path='/' element={<AccountOptions />} />
             <Route path='/signup' element={<Signup />} />
