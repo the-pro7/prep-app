@@ -6,6 +6,7 @@ import '../stylesheets/Signup.scss'
 import { useAuth } from '../contexts/AuthContext'
 import { useState, useRef } from 'react'
 import { Alert } from 'react-bootstrap'
+import { AVAILABLE_ROLES } from '../contexts/RoleContext'
 
 const Signup = () => {
   // These are references to the respective input fields of the form, to allow us to retrieve their value
@@ -19,12 +20,12 @@ const Signup = () => {
   // Basic navigation setup
   const navigate = useNavigate()
 
-  const { signup } = useAuth()
+  const { signup, signInWithGoogle } = useAuth()
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleSubmtit = async e => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     if (
@@ -46,8 +47,7 @@ const Signup = () => {
     try {
       setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
-      navigate("/login")
-
+      navigate('/login')
     } catch {
       console.log('Failed to create an account')
     }
@@ -55,14 +55,44 @@ const Signup = () => {
     setLoading(false)
   }
 
+  const handleGoogleSignIn = async () => {
+    try {
+      setError('')
+      if (!navigator.onLine) {
+        return setError("Failed to sign up. Check your network")
+      } else {
+        await signInWithGoogle()
+
+      }
+
+      let role = localStorage.getItem('role')
+      switch (role) {
+        case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
+          navigate('/hostel-tutor-dashboard')
+          break
+        case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
+          navigate('/prep-admin-dashboard')
+          break
+        default:
+          navigate('/student-dashboard')
+      }
+    } catch {
+      setError('Failed to continue with Google')
+    }
+  }
+
   return (
     <div className='form-wrapper'>
-      <form className='form-primary' onSubmit={handleSubmtit}>
+      <form className='form-primary' onSubmit={handleSubmit}>
         <div className='form-primary__header'>
           <h2 className='header'>Sign Up</h2>
           <p>Create an account</p>
         </div>
-        {error && <Alert variant='danger'className='w-100 text-center'>{error}</Alert>}
+        {error && (
+          <Alert variant='danger' className='w-100 text-center'>
+            {error}
+          </Alert>
+        )}
         <div className='form-primary__groupings'>
           <div className='form-group group-one'>
             <div>
@@ -117,20 +147,20 @@ const Signup = () => {
             Next
           </button>
         </div>
-        <div className='other-sign-in-methods'>
-          or continue
-          <button>
-            <FontAwesomeIcon icon={faGoogle} /> Continue with Google
-          </button>
-          <button>Continue with ManageBac</button>
-        </div>
-        <div className='old-user'>
-          An old user?{' '}
-          <Link to='/login' className='link'>
-            Log In
-          </Link>
-        </div>
       </form>
+      <div className='other-sign-in-methods'>
+        or continue
+        <button onClick={handleGoogleSignIn}>
+          <FontAwesomeIcon icon={faGoogle} /> Continue with Google
+        </button>
+        {/* <button>Continue with ManageBac</button> */}
+      </div>
+      <div className='old-user'>
+        An old user?{' '}
+        <Link to='/login' className='link'>
+          Log In
+        </Link>
+      </div>
     </div>
   )
 }

@@ -56,7 +56,7 @@ const Signin = () => {
       <form className='form-primary' onSubmit={handleSubmit}>
         <div className='form-primary__header'>
           <h2 className='header'>Login</h2>
-          <p>Sign in to you account</p>
+          <p>Sign in to your account</p>
         </div>
         {error && (
           <Alert variant='danger' className='text-center w-100'>
@@ -86,12 +86,14 @@ const Signin = () => {
             {loading ? 'Signing In...' : 'Next'}
           </button>
         </div>
-        <div className='other-sign-in-methods'>
+       
+      </form>
+      <div className='other-sign-in-methods'>
           or continue
           <button>
             <FontAwesomeIcon icon={faGoogle} /> Continue with Google
           </button>
-          <button>Continue with ManageBac</button>
+          {/* <button>Continue with ManageBac</button> */}
         </div>
         <div className='new-user'>
           An new user?{' '}
@@ -99,7 +101,6 @@ const Signin = () => {
             Sign Up
           </Link>
         </div>
-      </form>
     </div>
   )
 }

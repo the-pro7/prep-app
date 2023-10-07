@@ -37,6 +37,13 @@
     }
 }
 
+// Prep Admin Dashboard
+.prep-admin-dashboard {
+    height: 100dvh;
+    border: 3px solid red;
+    display: flex;
+}
+
 // For student time logged i
 .time-box {
     align-self: center;
@@ -72,4 +79,34 @@
             margin-top: -1em;
         }
     }
+}
+
+// Bar to show the different stuff like the time, the status and day
+.time-details {
+    box-sizing: border-box;
+    display: flex;
+    width: 75%;
+    max-width: 900px;
+    margin: 1em auto;
+    justify-content: space-between;
+}
+
+.time-details > * {
+    margin: 0;
+}
+
+.time-log {
+    width: 80%;
+    max-width: 900px;
+   @include flex(space-between, center, 0, row);
+    margin: 0 auto;
+    background-color: #FBDBE0;
+    padding: 1em 2em;
+    font-weight: weights(medium);
+    border-radius: 1rem;
+    color: #FF2828;
+}
+
+.time-log > * {
+    margin: 0;
 }

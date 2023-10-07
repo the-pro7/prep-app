@@ -9,34 +9,63 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNavigate } from 'react-router-dom'
 
 const DashboardSideNavigation = () => {
-  const { user, logout } = useAuth()
+  const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
   const [error, setError] = useState()
 
   const handleLogout = async () => {
-    if (user) {
       try {
+        setError('')
         await logout()
+        navigate('/login')
       } catch (error) {
         setError(error)
+        console.log(error)
       }
-      navigate('/login')
-    }
+  
   }
   return (
+
+    /* {
+    "uid": "rvLxAdDWgDTDVGoS6JlkJnWmLH83",
+    "email": "felixopokuameyaw400@gmail.com",
+    "emailVerified": true,
+    "displayName": "Felix Six",
+    "isAnonymous": false,
+    "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJtmtoKuKm6_eKoNaCXAGDaH9MAwcfYUup1RBaZPlOhjt0=s96-c",
+    "providerData": [
+        {
+            "providerId": "google.com",
+            "uid": "111370211966074347224",
+            "displayName": "Felix Six",
+            "email": "felixopokuameyaw400@gmail.com",
+            "phoneNumber": null,
+            "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJtmtoKuKm6_eKoNaCXAGDaH9MAwcfYUup1RBaZPlOhjt0=s96-c"
+        }
+    ],
+    "stsTokenManager": {
+        "refreshToken": "AMf-vBxYLeP9mdDyGagoQJjV5w_WJP5QSsp6oVoFq-V1pv3RR6LzhAA4vxiRc6Ad8nV_GC2fNi9yIdxnpmWcvouWqKCqQaQxq-gt30FlSLcZ-MrPgxm6bI0pGrvSQWhbpdn11jAMFxoMkd7Fu6YadEnphxWQNck-uNjGyQ4ZXyKvNTrMRX0tTdWoItqtE2f3rUgILR5nj82LstIhFvlOLBugzWHYiSOMRml9KMTYCQqI2JtvAHVi_7fBOANn8-LNufE88VzmnxZOsU6vhrr0NfozbSE4HOv8RDKPS2F8n9X85l5Ae-pzpdPJz9zvL9BGfQRRWL-eHSxu-al6IsWLS2N7cUM2su4Dv5CdiY97M1XjVcnfTYv4RQ_a6FkfsR5OoTDIeBygulttYFeHtNA2NNSwmsBq5pa9QuvX3baVZjsAquNEK2yy5xFmkP9hKfI2mQtdyVJ7yUhL",
+        "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjlhNTE5MDc0NmU5M2JhZTI0OWIyYWE3YzJhYTRlMzA2M2UzNDFlYzciLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiRmVsaXggU2l4IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0p0bXRvS3VLbTZfZUtvTmFDWEFHRGFIOU1Bd2NmWVV1cDFSQmFaUGxPaGp0MD1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9wcmVwLWFwcC1kZDc2MCIsImF1ZCI6InByZXAtYXBwLWRkNzYwIiwiYXV0aF90aW1lIjoxNjk2NzAxMjk5LCJ1c2VyX2lkIjoicnZMeEFkRFdnRFREVkdvUzZKbGtKbldtTEg4MyIsInN1YiI6InJ2THhBZERXZ0RURFZHb1M2SmxrSm5XbUxIODMiLCJpYXQiOjE2OTY3MDEyOTksImV4cCI6MTY5NjcwNDg5OSwiZW1haWwiOiJmZWxpeG9wb2t1YW1leWF3NDAwQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTExMzcwMjExOTY2MDc0MzQ3MjI0Il0sImVtYWlsIjpbImZlbGl4b3Bva3VhbWV5YXc0MDBAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.ZRZCpmVMNeVoNyGjurf5O0_B0IQMV5GE5UK3_gzdIcKX_EyVBQHN8awi-V6vR6MGj-2SAC8L4gOyvRjbzahW2iaZ-g5ELztvaiH-FKOjFQLiBcU40qtApiP-Uez88KJqP-1-iim7i97B2hvgw5qg4jM29-piFUJLOz3TvS10Ef3b7VN6iU1NjuhVOP9vwHIGabsSXwkFGHLNQElPQIjQ1eXP3k2MpQKUFq3StPKdN5i3xNjPiFFeG-wCl86ATK_rFa_YjPmkBSKi1mT7oY4B5EQyyDSPFpAXawQEMWnROOqx0v4IjFf6hN3bQImCKAN1YdeJ1iSYqvp9r2InNHdy1w",
+        "expirationTime": 1696701201604
+    },
+    "createdAt": "1695920410858",
+    "lastLoginAt": "1696701299188",
+    "apiKey": "AIzaSyCGHKaj-Zx3EwVt6_MqbGvnN_N62DM1lAQ",
+    "appName": "[DEFAULT]"
+}*/
     <aside className='dashboard-nav'>
       <h1>Prep App</h1>
       <div className='profile'>
         <div className='profile__image'>
-          {user?.profileImage ? (
-            <img src='#' alt='' />
+          {currentUser?.displayName ? (
+            <img src={currentUser?.photoURL} alt=''className='profile__image-img'/>
           ) : (
             <FontAwesomeIcon icon={faUser} style={{ fontSize: '1.5rem' }} />
           )}
         </div>
         <div className='profile__user'>
-          <h3>John Doe</h3>
-          <span className='user-email'>doe_j@soshgic.edu.gh</span>
+          <h3>{currentUser?.displayName}</h3>
+          <span className='user-email'>{currentUser?.email}</span>
         </div>
       </div>
       <div className='actions'>

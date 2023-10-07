@@ -10,46 +10,52 @@ import ProtectedRoute from './protect-routes/ProtectedRoute'
 import StudentDashboard from './dashboards/StudentDashboard'
 import PrepAdminDashboard from './dashboards/PrepAdminDashboard'
 import HostelTutorDashboard from './dashboards/HostelTutorDashboard'
+import DashboardProvider from './contexts/DashboardContext'
+import NotFound from './components/NotFound'
 
 const App = () => {
   return (
     <>
       <AuthProvider>
         <RoleProvder>
-          {/* <h1
+          <DashboardProvider>
+            {/* <h1
             style={{ textAlign: 'center', fontSize: '3rem', marginTop: '1rem' }}
           >
             Prep App
           </h1> */}
-          <Routes>
-            <Route path='/' element={<AccountOptions />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/login' element={<Signin />} />
-            <Route
-              path='/student-dashboard'
-              element={
-                // <ProtectedRoute>
+            <Routes>
+              <Route path='/' element={<AccountOptions />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/login' element={<Signin />} />
+              <Route
+                path='/student-dashboard'
+                element={
+                  // <ProtectedRoute>
                   <StudentDashboard />
-                // </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/prep-admin-dashboard'
-              element={
-                // <ProtectedRoute>
+                  // </ProtectedRoute>
+                }
+              />
+              <Route
+                path='/prep-admin-dashboard'
+                element={
+                  // <ProtectedRoute>
                   <PrepAdminDashboard />
-                // </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/hostel-tutor-dashboard'
-              element={
-                // <ProtectedRoute>
+                  // </ProtectedRoute>
+                }
+              />
+              <Route
+                path='/hostel-tutor-dashboard'
+                element={
+                  // <ProtectedRoute>
                   <HostelTutorDashboard />
-                // </ProtectedRoute>
-              }
-            />
-          </Routes>
+                  // </ProtectedRoute>
+                }
+              />
+                <Route path='*' element={<NotFound />}/>
+
+            </Routes>
+          </DashboardProvider>
         </RoleProvder>
       </AuthProvider>
     </>

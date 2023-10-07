@@ -36,6 +36,10 @@
             background: rgb(188, 186, 186);
             border-radius: 50%;
             @include flex(center,center, unset, row);
+
+            .profile__image-img {
+                border-radius: inherit;
+            }
         }
     }
 

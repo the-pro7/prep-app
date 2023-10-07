@@ -1,120 +1,121 @@
-@import "./_config";
+@import './_config';
 
 .form-wrapper {
-    height: 90dvh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+  margin-block: 3em 2em;
 
-    .form-primary {
+  .form-primary {
+    width: 80%;
+    max-width: 500px;
+    @include flex(center, flex-start, 1em, column);
+    padding: 2em;
+    border-radius: 2rem;
+    background-color: lighten(#000, 80%);
+    box-shadow: 3px 4px 15px rgb(0 0 0 / 0.2);
 
-        width: 80%;
-        max-width: 500px;
-        @include flex(center, flex-start, 1em, column);
-        padding: 2em;
-        border-radius: 2rem;
-        background-color: lighten(#000, 80%);
-        box-shadow: 3px 4px 15px rgb(0 0 0 / .2);
+    &__header {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      h2 {
+        font-weight: weights(semi-bold);
+      }
 
-        &__header {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            h2 {
-                font-weight: weights(semi-bold);
-            }
-
-            p {
-                font-weight: weights(medium);
-                text-transform: capitalize;
-            }
-        }
-
-        &__groupings {
-            width: 100%;
-            @include flex(center, unset, .7em, column);
-
-            // > * {
-            // border: 4px solid red;
-
-            // }
-
-            .form-group {
-                label {
-                    font-weight: weights(medium);
-                }
-                input {
-                    padding: .7em 1em;
-                    border: 0;
-                    border-radius: .5rem;
-                    width: 100%;
-                    font-size: 1rem;
-                    font-weight: weights(medium);
-
-                    &:is(:focus, :active) {
-                        outline-color: transparent;
-                    }
-                }
-            }
-
-            .group-one {
-                display: grid;
-                gap: 1.5em;
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            }
-
-            .group-two {
-                display: flex;
-                flex-direction: column;
-                gap: .5em;
-            }
-
-            [type="submit"] {
-                align-self: flex-end;
-                padding: .5em 2.5em;
-                font-weight: weights(medium);
-                border-radius: 1rem;
-                cursor: pointer;
-                background-color: rgb(0 0 0 / .3);
-                border: 0;
-                font-size: 1.1rem;
-                font-weight: weights(bold);
-                font-family: "Poppins", sans-serif;
-                letter-spacing: 1.5px;
-            }
-        }
-
-        .other-sign-in-methods {
-            display: grid;
-            width: fit-content;
-            margin: 0 auto;
-            gap: .5em;
-            place-content: center;
-            place-items: center;
-
-            button {
-                padding: .5em 3em;
-                width: 100%;
-                background: #000;
-                color: #fff;
-                border-radius: .5rem;
-                border: 0;
-                cursor: pointer;
-                font-weight: weights(semi-bold);
-            }
-
-            button:first-of-type {
-                margin-top: -.5em;
-            }
-        }
-
-        .old-user {
-            margin: 0 auto;
-            font-weight: weights(medium);
-
-            .link {
-                text-decoration: none;
-            }
-        }
+      p {
+        font-weight: weights(medium);
+        text-transform: capitalize;
+      }
     }
+
+    &__groupings {
+      width: 100%;
+      @include flex(center, unset, 0.7em, column);
+
+      // > * {
+      // border: 4px solid red;
+
+      // }
+
+      .form-group {
+        label {
+          font-weight: weights(medium);
+        }
+        input {
+          padding: 0.7em 1em;
+          border: 0;
+          border-radius: 0.5rem;
+          width: 100%;
+          font-size: 1rem;
+          font-weight: weights(medium);
+
+          &:is(:focus, :active) {
+            outline-color: transparent;
+          }
+        }
+      }
+
+      .group-one {
+        display: grid;
+        gap: 1.5em;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      }
+
+      .group-two {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      }
+
+      [type='submit'] {
+        align-self: flex-end;
+        padding: 0.5em 2.5em;
+        font-weight: weights(medium);
+        border-radius: 1rem;
+        cursor: pointer;
+        background-color: rgb(0 0 0 / 0.3);
+        border: 0;
+        font-size: 1.1rem;
+        font-weight: weights(bold);
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: 1.5px;
+      }
+    }
+  }
+}
+
+.other-sign-in-methods {
+  display: grid;
+  width: fit-content;
+  margin: 0 auto;
+  gap: 0.5em;
+  place-content: center;
+  place-items: center;
+
+  button {
+    padding: 0.5em 3em;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border-radius: 0.5rem;
+    border: 0;
+    cursor: pointer;
+    font-weight: weights(semi-bold);
+  }
+
+  button:first-of-type {
+    margin-top: -0.5em;
+  }
+}
+
+.old-user {
+  margin: 0 auto;
+  font-weight: weights(medium);
+
+  .link {
+    text-decoration: none;
+  }
 }
