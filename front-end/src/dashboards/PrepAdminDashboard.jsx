@@ -3,8 +3,7 @@ import DashboardSideNavigation from '../components/DashboardSideNavigation'
 import { useDashBoardValues } from '../contexts/DashboardContext'
 import { TimeBar } from '../components/TimeBar'
 import TimeDetails from '../components/TimeDetails'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import {faMagnifyingGlass} from "@fortawesome/free-regular-svg-icons"
+import MagnifyingGlass from "../assets/search-icon.svg"
 const PrepAdminDashboard = () => {
   const { showExtra, updateShowExtra } = useDashBoardValues()
 
@@ -22,7 +21,7 @@ const PrepAdminDashboard = () => {
           <h2>Attendance</h2>
           <div className="search">
           <input type="search" placeholder='Search'/>
-          {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
+          <img src={MagnifyingGlass} alt="" />
           </div>
         </div>
         <TimeDetails showExtra={showExtra}/>

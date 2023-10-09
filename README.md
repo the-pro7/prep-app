@@ -1,5 +1,5 @@
 # School Prep App
-A prep web app for schools
+A prep web app for schools to monitor student's prep attendance
 
 ## Here's the cover image of the app
 ![Prep App Cover]("./front-end/src/assets/cover.png")
@@ -8,7 +8,7 @@ A prep web app for schools
 - React (Vite Template)
 - SASS (SCSS)
 - Firebase Auth
-- Nodejs
+- Nodejs with Express
 - MongoDB and Mongoose
 
 ## Abilities of this app ⚡
@@ -21,6 +21,5 @@ A prep web app for schools
 
 - Finally `npm run dev` after the above command to start the `vite` server.
 
-### Contact the developers 📧
-- Paul Asitik (backend developer): ["pasitik@gmail.com"](pasitik@gmail.com)
-- Emmanuel Opoku-Ameyaw (front-end developer): ["emmaneuldeprogrammer@gmail.com"](emmaneuldeprogrammer@gmail.com)
+## Contact the developers 📧
+Developer contact information goes here.
