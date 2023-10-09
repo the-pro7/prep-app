@@ -85,6 +85,54 @@
   }
 }
 
+.hostel-tutor-dashboard {
+    height: 100dvh;
+    display: flex;
+  
+    &__activity-area {
+      width: 100%;
+  
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em 5em;
+  
+      //   Header for admin top nav
+      h2 {
+          font-weight: weights(bold);
+      }
+  
+        .search {
+          background-color: rgb(0 0 0 / .1);
+          display: flex;
+          border-radius: 3rem;
+          overflow: clip;
+          padding-inline: .5em;
+          position: relative;
+  
+          input {
+              border: 0;
+              background-color: transparent;
+              padding: .4em;
+  
+              &:is(:focus-visible, :focus) {
+                  outline-color: transparent;
+              }
+          }
+  
+          img {
+              position: absolute;
+              right: 1rem;
+              top: .57rem;
+              
+          }
+        }
+      }
+    }
+  }
+  
+
 // For student time logged i
 .time-box {
   align-self: center;

@@ -31,29 +31,32 @@ const App = () => {
               <Route
                 path='/student-dashboard'
                 element={
-                  // <ProtectedRoute>
-                  <StudentDashboard />
-                  // </ProtectedRoute>
+                  <ProtectedRoute>
+                    <StudentDashboard />
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path='/prep-admin-dashboard'
                 element={
-                  // <ProtectedRoute>
-                  <PrepAdminDashboard />
-                  // </ProtectedRoute>
+                  <ProtectedRoute>
+                    <PrepAdminDashboard />
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path='/hostel-tutor-dashboard'
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                   <HostelTutorDashboard />
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
-                <Route path='*' element={<NotFound />}/>
-
+              {/* <ProtectedRoute
+                path='/hostel-tutor-dashboard'
+                element={<HostelTutorDashboard />}
+              /> */}
+              <Route path='*' element={<NotFound />} />
             </Routes>
           </DashboardProvider>
         </RoleProvder>

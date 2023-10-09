@@ -14,5 +14,5 @@ export const TimeBar = ({showExtra}) => {
 }
 
 TimeBar.propTypes = {
-    showExtra: PropTypes.string.isRequired,
+    showExtra: PropTypes.bool.isRequired,
 }
