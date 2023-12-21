@@ -1,26 +1,18 @@
-require("dotenv").config()
+const express = require("express");
+const connectDb = require("./config/connectDB");
+require("dotenv").config();
 
-const mongoose = require("mongoose")
-const express = require('express')
-const attendance_routes = require('./routes/prep_attendace')
+const app = express();
+const port = process.env.PORT || 5000;
 
-const app = express()
+connectDb(process.env.CONNECTION_STRING, port, app)
 
-app.use(express.json())
+app.use(express.json());
 app.use((req, res, next) => {
-    console.log(req.path, req.method)
-    next()
-})
+    console.log(req.path, req.method);
+	next();
+});
 
-app.use("/api/attendance", attendance_routes)
-
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-    app.listen(process.env.PORT,() => {
-        console.log("listening on port", process.env.PORT)
-    })
-})
-.catch(err=>console.error(`Error connecting to database: ${err}`))
-
-
-
+// Routes
+const attendance_routes = require("./routes/prep_attendace");
+app.use("/api/attendance", attendance_routes);
