@@ -53,6 +53,7 @@ const Signin = () => {
 
       let data = await response.json()
       console.log(data)
+      setError(data.message)
       // Set user token to localStorage
       localStorage.setItem('token', data.token)
       // Set user  to localStorage
@@ -71,8 +72,8 @@ const Signin = () => {
         default:
           navigate(`/student-dashboard/student/${data.user?._id}`)
       }
-    } catch {
-      setError('Failed to login to your account.')
+    } catch (error) {
+      setError('Failed to login to your account.' + error)
     }
     setLoading(false)
   }

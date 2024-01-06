@@ -1,18 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const TimeDetails = ({showExtra}) => {
+// Time details component
+const TimeDetails = ({ showExtra }) => {
   return (
+    // This UI will be the one to create sort of the arrangement for the time bar
     <div className='time-details'>
-      {showExtra && <p style={{marginRight: "3em"}}>Name</p>}
+      {/* The showExtra prop will determine whether to include Name in the arrangements  */}
+      {showExtra && <p style={{ marginRight: '3em' }}>Name</p>}
       {showExtra && '|'}
       <p>Time</p>|<p>Status</p>|<p>Day</p>
     </div>
   )
 }
 
-// TimeDetails.propTypes = {
-//   showExtra: PropTypes.bool.isRequired
-// }
-
+// This makes it necessary to pass in the right data type to the showExtra prop
+TimeDetails.propTypes = {
+  showExtra: PropTypes.bool.isRequired
+}
 export default TimeDetails

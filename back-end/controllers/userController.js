@@ -56,39 +56,52 @@ const loginUser = asyncHandler(async (req, res, next) => {
     const userAvailable = await User.findOne({ email })
 
     // Throw error if user does not exists
-    if (!userAvailable)
+    if (!userAvailable) {
       res
         .status(404)
         .json({ message: 'Could not find user with the provided credentials' })
+    }
 
     // Update user details
+    // Get user sign in time e.g 7:00 PM
     let signInTime = new Date().toLocaleString('en', {
       hour: '2-digit',
       minute: '2-digit'
     })
 
+    // Get day
+    let daySign = new Date().toLocaleString('en', { weekday: 'long' })
+
+    // Compare the in coming password with the hashed password in the database
     if (await compare(password, userAvailable.password)) {
       const lastSignInTime = Date.now()
+      // Create a reference time to determine user sign status
       let referenceTime = new Date().setHours(19, 30, 0)
       // Update the user's last signed in time
       userAvailable.lastSignInTime = signInTime
       // Determine sign in status
       let signInStatus = determineSignInStatus(lastSignInTime, referenceTime)
 
-      // Initialize logBarDetails if undefined
+      // Add a signed in day for the user
+      userAvailable.daySignIn = daySign
+
+      // Initialize logBarDetails if undefined in the database
       if (!userAvailable.logBarDetails) {
         userAvailable.logBarDetails = []
       }
 
       userAvailable.signInStatus = signInStatus
+      // New log for log bar on frontend which contains all the time logs of the users / students
       const newLog = {
         name: userAvailable?.name,
         signTime: userAvailable?.lastSignInTime,
         status: userAvailable?.signInStatus,
         day: userAvailable?.daySignIn
       }
+      // Prepend the newLog to the logBarDetails array in the database
       userAvailable.logBarDetails.unshift(newLog)
 
+      // Save the user
       await userAvailable.save()
       //   Create a token for signed in user
       let token = createToken(
@@ -98,8 +111,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
         userAvailable.email,
         userAvailable.isAdmin
       )
-      // Send the final user over to the client app
 
+      // Send the final user over to the client app
       res.status(200).json({
         user: {
           _id: userAvailable?._id,
@@ -112,6 +125,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
           requests: userAvailable?.requests,
           signInStatus: userAvailable?.signInStatus
         },
+        // Send their auth token too, this will be needed
         token
       })
     }
@@ -124,7 +138,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
 // @route /api/users/logout
 // @access PRIVATE
-// @desc Login a user
+// @desc Logout a user
 const logoutUser = asyncHandler(async (req, res, next) => {
   res.cookie('jwt', '', {
     secure: true,
@@ -133,7 +147,7 @@ const logoutUser = asyncHandler(async (req, res, next) => {
     // maxAge: 24 * 30 * 60 * 60
   })
 
-  res.status(204).send('User deleted')
+  res.status(204).json({ message: 'User deleted' })
   //   res.redirect("/signup", 204)
 })
 
@@ -252,8 +266,7 @@ const getAllLogDetails = asyncHandler(async (req, res, next) => {
     //   __v: 0,
     // }
     // Include exclusion projection
-    let allUsers = await User.find({}).select("-password")
-
+    let allUsers = await User.find({}).select('-password')
 
     next(res.status(200).json(allUsers))
   } catch (error) {

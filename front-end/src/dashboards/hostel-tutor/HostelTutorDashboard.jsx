@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import DashboardSideNavigation from '../../components/DashboardSideNavigation'
 import { useDashBoardValues } from '../../contexts/DashboardContext'
 import { TimeBar } from '../../components/TimeBar'
@@ -9,7 +9,9 @@ import HostelTutorAttendance from '../../components/attendance/HostelTutorAttend
 
 const HostelTutorDashboard = ({ hostelName }) => {
   const { updateShowExtra, showAttendances } = useDashBoardValues()
+  const [search, setSearch] = useState('')
 
+  
   return (
     <main className='hostel-tutor-dashboard'>
       <DashboardSideNavigation showAttendanceButton={false}/>
@@ -17,12 +19,12 @@ const HostelTutorDashboard = ({ hostelName }) => {
         <div className='top-nav'>
           <h2>{hostelName ? hostelName : 'Mano Hostel'}</h2>
           <div className='search'>
-            <input type='search' placeholder='Search' />
+            <input type='search' placeholder='Search' onChange={(e) => setSearch(e.target.value)}/>
             <img src={MagnifyingGlass} alt='' />
           </div>
         </div>
         <TimeDetails showExtra={true} />
-        <HostelTutorAttendance />
+        <HostelTutorAttendance searchQuery={search}/>
       </section>
     </main>
   )

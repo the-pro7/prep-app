@@ -7,6 +7,9 @@ import AllRequests from '../../components/request/AllRequests'
 
 // Admin dashboard component
 const PrepAdminDashboard = () => {
+
+
+  // Extract contextual values
   const { showExtra, updateShowExtra, showAttendances, showAllRequests } =
     useDashBoardValues()
 
@@ -22,7 +25,7 @@ const PrepAdminDashboard = () => {
   console.log('Here are my logins', userLogIns)
   return (
     <main className='prep-admin-dashboard'>
-      <DashboardSideNavigation showAttendanceButton={true}/>
+      <DashboardSideNavigation showAttendanceButton={true} />
       {!showAttendances ? (
         <PrepAdminActivityArea userLogIns={userLogIns} showExtra={showExtra} />
       ) : (

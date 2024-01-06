@@ -28,7 +28,6 @@ const userSchema = mongoose.Schema(
     daySignIn: {
       type: String,
       required: false,
-      default: new Date().toLocaleString('en', { weekday: 'long' })
     },
     logBarDetails: {
       type: [mongoose.Schema.Types.Mixed],
