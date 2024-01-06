@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import '../stylesheets/Signin.scss'
-import { useAuth } from '../contexts/AuthContext'
 import { Alert } from 'react-bootstrap'
 import { useState, useRef } from 'react'
 import { AVAILABLE_ROLES } from '../contexts/RoleContext'
@@ -12,10 +11,10 @@ const Signin = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
 
+  const user = JSON.parse(localStorage.getItem('user'))
+
   // Basic navigation setup
   const navigate = useNavigate()
-
-  // const { login } = useAuth()
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -52,16 +51,19 @@ const Signin = () => {
       if (!response.ok) console.log(response.statusText, response.status)
 
       let data = await response.json()
-      console.log(data)
+      console.log(data, 'user signed in')
       setError(data.message)
+
       // Set user token to localStorage
       localStorage.setItem('token', data.token)
       // Set user  to localStorage
-      localStorage.setItem("user", JSON.stringify(data.user))
+      localStorage.setItem('user', JSON.stringify(data.user))
 
-
+      // Get role chosen by user from local storage
       let role = localStorage.getItem('role')
+      console.log(role)
 
+      // Take the user to their dashboard based on the role they chose
       switch (role) {
         case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
           navigate(`/hostel-tutor-dashboard/tutor/${data.user?._id}`)
@@ -71,6 +73,7 @@ const Signin = () => {
           break
         default:
           navigate(`/student-dashboard/student/${data.user?._id}`)
+          break
       }
     } catch (error) {
       setError('Failed to login to your account.' + error)

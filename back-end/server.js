@@ -6,7 +6,7 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 5000
 
-// Coonect to MongoDB
+// Connect to MongoDB
 connectDb(process.env.CONNECTION_STRING, port, app)
 
 // Middleware from express.js
@@ -17,6 +17,4 @@ app.options('/api/users', cors())
 
 // Routes
 const userRoutes = require("./routes/userRoutes")
-// const requestRoutes = require('./routes/requestRoutes')
 app.use('/api/users', userRoutes)
-// app.use('/api/requests', requestRoutes)

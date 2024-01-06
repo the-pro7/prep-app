@@ -20,7 +20,6 @@ const Signup = () => {
   // Basic navigation setup
   const navigate = useNavigate()
 
-  // const { signup, signInWithGoogle, currentUser } = useAuth()
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -79,23 +78,6 @@ const Signup = () => {
     } catch (error) {
       console.log('An error occurred', error.message)
     }
-
-    // Old way
-    // try {
-    //   setLoading(true)
-    //   await signup(emailRef.current.value, passwordRef.current.value)
-
-    //   localStorage.setItem("displayName", `
-    //     ${firstNameRef.current.value} ${lastNameRef.current.value}
-    //   `)
-
-    //   console.log(currentUser?.displayName)
-    //   navigate('/login')
-    // } catch {
-    //   console.log('Failed to create an account')
-    // }
-
-    // setLoading(false)
   }
 
   // const handleGoogleSignIn = async () => {

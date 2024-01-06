@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema(
     requests: {
       type: [mongoose.Schema.Types.Mixed],
       required: false,
-      default: []
+      default: [],
     },
     daySignIn: {
       type: String,
@@ -31,7 +31,8 @@ const userSchema = mongoose.Schema(
     },
     logBarDetails: {
       type: [mongoose.Schema.Types.Mixed],
-      required: false
+      required: false,
+      default: []
     },
     signInStatus: {
       type: String,

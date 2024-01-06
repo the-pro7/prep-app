@@ -4,7 +4,7 @@ import Signup from './components/Signup'
 import Signin from './components/Signin'
 import { Routes, Route } from 'react-router-dom'
 import AccountOptions from './components/account-options/AccountOptions'
-import RoleProvder from './contexts/RoleContext'
+import RoleProvider from './contexts/RoleContext'
 import AuthProvider, { useAuth } from './contexts/AuthContext'
 import DashboardProvider, {
   useDashBoardValues
@@ -23,7 +23,7 @@ const App = () => {
   return (
     <>
       <AuthProvider>
-        <RoleProvder>
+        <RoleProvider>
           <DashboardProvider>
             <Routes>
               <Route path='/' element={<AccountOptions />} />
@@ -37,7 +37,7 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
-              {/* Path for creating requets */}
+              {/* Path for creating requests */}
               <Route
                 path={'/:id/new-request'}
                 element={
@@ -63,10 +63,11 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              {/* 404 / Not found route, for pages/ routes that are not included in the routes above */}
               <Route path='*' element={<NotFound />} />
             </Routes>
           </DashboardProvider>
-        </RoleProvder>
+        </RoleProvider>
       </AuthProvider>
     </>
   )

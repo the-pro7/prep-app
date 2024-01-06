@@ -5,7 +5,8 @@ const {
   logoutUser,
   postNewRequest,
   getAllRequests,
-  getAllLogDetails
+  getAllLogDetails,
+  getAllStudentRequests
 } = require('../controllers/userController')
 const { authenticate, authorizeAdmin } = require('../middleware/authMiddleware')
 const router = Router()
@@ -21,5 +22,8 @@ router.get('/all-requests/:id', authenticate, getAllRequests)
 
 // Grab all time log details of users
 router.get('/log-details', authenticate, authorizeAdmin, getAllLogDetails)
+
+// Grab all student requests
+router.get('/all-requests', authenticate, authorizeAdmin, getAllStudentRequests)
 
 module.exports = router

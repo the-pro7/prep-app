@@ -12,19 +12,13 @@ export const AVAILABLE_ROLES = {
 
 export const useSelection = () => useContext(RoleContext)
 
-const RoleProvder = ({ children }) => {
+const RoleProvider = ({ children }) => {
   // Put the current selection to the user's local storage so that it can later be retrieved even across page reloads
-  useEffect(() => {
-    localStorage.setItem('role', AVAILABLE_ROLES.ROLE_STUDENT)
-
-    return () => {
-      localStorage.removeItem('role');
-    }
-  }, [])
+  // useEffect(() => {
+  //   localStorage.setItem('role', AVAILABLE_ROLES.ROLE_STUDENT)
+  // }, [])
   // Creating the selection state, using the useState() hook from react, and defaulting it to a student
-  const [currentlySelected, setCurrentlySelected] = useState(
-    AVAILABLE_ROLES.ROLE_STUDENT
-  )
+  const [currentlySelected, setCurrentlySelected] = useState('')
 
   // Function to update role selection based on the currently selected role
   const updateSelection = newSelection => setCurrentlySelected(newSelection)
@@ -41,4 +35,4 @@ const RoleProvder = ({ children }) => {
   )
 }
 
-export default RoleProvder
+export default RoleProvider

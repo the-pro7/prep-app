@@ -10,22 +10,27 @@ import { faClipboardUser, faMedal } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useDashBoardValues } from '../contexts/DashboardContext'
 
-const DashboardSideNavigation = ({showAttendanceButton}) => {
+const DashboardSideNavigation = ({
+  showAttendanceButton,
+  setShowStudentRequests
+}) => {
   // const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
-  const { updateShowAllRequests, setShowAttendances, showAttendances } = useDashBoardValues()
+  const { updateShowAllRequests, setShowAttendances, showAttendances } =
+    useDashBoardValues()
   const user = JSON.parse(localStorage.getItem('user'))
 
   const logoutUser = async () => {
     try {
       let response = await fetch('http://localhost:5003/api/users/logout')
 
-      if (!response.ok) console.log('Failed to logout user')
+      if (!response.ok) console.log('Failed to logout user', response.statusText)
       console.log('User logged out successfully')
       // Remove user info from local storage
       localStorage.removeItem('user')
       // Remove user token from local storage
       localStorage.removeItem('token')
+
       navigate('/login')
     } catch (error) {}
   }
@@ -56,7 +61,10 @@ const DashboardSideNavigation = ({showAttendanceButton}) => {
       <div className='actions'>
         <button
           className='actions_requests'
-          onClick={() => updateShowAllRequests(true)}
+          onClick={() => {
+            updateShowAllRequests(true)
+            setShowStudentRequests(true)
+          }}
         >
           <img src={loopIcon} alt='' /> Requests
         </button>
@@ -66,12 +74,15 @@ const DashboardSideNavigation = ({showAttendanceButton}) => {
         </button>
         {/* Show attendance button if user is admin */}
         {showAttendanceButton && (
-          <button className='actions_notifications' onClick={() => setShowAttendances(prev => !prev)}>
+          <button
+            className='actions_notifications'
+            onClick={() => setShowAttendances(prev => !prev)}
+          >
             <FontAwesomeIcon
               icon={faClipboardUser}
               style={{ fontSize: '1.6rem' }}
             />
-            {showAttendances ? "Hide Attendance" : "Attendance"}
+            {showAttendances ? 'Hide Attendance' : 'Attendance'}
             {console.log(showAttendances)}
           </button>
         )}

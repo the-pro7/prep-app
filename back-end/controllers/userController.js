@@ -201,6 +201,7 @@ const postNewRequest = asyncHandler(async (req, res, next) => {
 // @access PRIVATE
 // @desc Get all user's requests based on their ID
 const getAllRequests = asyncHandler(async (req, res, next) => {
+  // Check if user exists and has a valid id
   if (!req.user && !req.params?.id) {
     next(res.status(404).json({ message: 'User not found, try again!' }))
   }
@@ -235,10 +236,29 @@ const getAllRequests = asyncHandler(async (req, res, next) => {
   }
 })
 
+// @route /api/users/all-requests
+// @access PRIVATE
+// @desc Get all student requests
+// Get all user requests as admin
+const getAllStudentRequests = asyncHandler(async (req, res, next) => {
+  // Check if user exists and is an admin user as well
+  if (!req.user && req.user?.isAdmin) {
+    next(res.status(401).json('User does not exist or is not an admin'))
+  }
+
+  try {
+    let allUsers = await User.find({}).select('-password')
+    res.status(200).json(allUsers)
+  } catch (error) {
+    res.status(500).json({ message: `Sever had an error: ${error}` })
+  }
+})
+
 // @route /api/users/log-details
 // @access PRIVATE
 // @desc Get all log details and names of users / students
 const getAllLogDetails = asyncHandler(async (req, res, next) => {
+  // Check if user exists and is an admin user as well
   if (!req.user && !req.user?.isAdmin) {
     next(
       res
@@ -286,5 +306,6 @@ module.exports = {
   logoutUser,
   postNewRequest,
   getAllRequests,
-  getAllLogDetails
+  getAllLogDetails,
+  getAllStudentRequests
 }

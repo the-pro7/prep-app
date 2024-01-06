@@ -24,7 +24,8 @@ const requestSchema = new Schema({
     },
     approved: {
         type: Boolean,
-        required: false
+        required: false,
+        default: false
     }
 }, {
     timestamps: true

@@ -2,7 +2,7 @@
 import Option from './Option'
 import '../../stylesheets/AccountOptions.scss'
 import { useSelection } from '../../contexts/RoleContext'
-// Importing the avaible roles from the role context file to access the key value pairs within it
+// Importing the available roles from the role context file to access the key value pairs within it
 import { AVAILABLE_ROLES } from '../../contexts/RoleContext'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +25,7 @@ const AccountOptions = () => {
     if (roleChosen) {
       navigate('/signup')
     } else {
-      comsole.log('An error occured')
+      console.log('An error occurred')
     }
   }
 

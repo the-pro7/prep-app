@@ -3,6 +3,8 @@ import MagnifyingGlass from '../../assets/search-icon.svg'
 import TimeDetails from '../TimeDetails'
 import NoSearchResultImage from '../../assets/error-images/no-search.avif'
 import { TimeBar } from '../TimeBar'
+// Function to flatten an array with nested array(s) into one array
+import flatten from "../../../utilities/flatten"
 
 const HostelTutorAttendance = ({ searchQuery }) => {
   const [userLogDetails, setUserLogDetails] = useState([])
@@ -40,17 +42,10 @@ const HostelTutorAttendance = ({ searchQuery }) => {
     getAllUserLogDetails()
   }, [])
 
-  // Function to flatten an array with nested array(s) into one array
-  const flatten = arr => {
-    return arr.reduce((flat, toFlatten) => {
-      return flat.concat(
-        Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten
-      )
-    }, [])
-  }
+ 
 
   // Set the actual mappable data to the flattened version of the data received from the server
-  let usableDetails = flatten(userLogDetails.map(info => info?.logBarDetails))
+  let usableDetails = flatten(userLogDetails?.map(info => info?.logBarDetails))
 
   // Filter the usableDetails based on searchQuery to show the users whose name match the search query
   const filteredDetails = searchQuery
@@ -64,7 +59,9 @@ const HostelTutorAttendance = ({ searchQuery }) => {
       <ul className='time-log-box' style={{ height: '83dvh' }}>
         {/* Show the attendances of all the users/ students */}
         {/* Using the filteredDetails array in order to filter the rendered list when searching for a particular student / user */}
-        {filteredDetails.length === 0 ? (
+        {usableDetails?.length === 0 ? (
+          <p className='see-nothing'>Nothing to see here</p>
+        ) : filteredDetails.length === 0 ? (
           // The above filteredDetails.length ===  0 renders this <li> if the search keyword does not match any of the students / users
           <li className='no-student'>
             <img src={NoSearchResultImage} alt='No results image' />

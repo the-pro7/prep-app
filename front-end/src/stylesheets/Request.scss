@@ -100,7 +100,6 @@
   margin: 2em 1em;
 }
 
-
 .all-requests > .action-div {
   display: flex;
   justify-content: space-between;
@@ -115,7 +114,6 @@
   width: fit-content;
   padding: 0.7em 1em;
   border-radius: 0.5rem;
-
 
   span {
     font-weight: 600;
@@ -134,7 +132,6 @@
     background-color: #0ca7ee;
     color: #fff;
   }
-
 }
 
 .all-requests > .requests {
@@ -175,5 +172,79 @@
 
   .created-at {
     margin-left: auto;
+  }
+}
+
+// Admin requests panel
+.admin-requests {
+  width: 90%;
+  margin: 0 auto;
+
+// styles for primary nav
+.primary-nav {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+  margin: 1em;
+
+  // Style for back button
+  .back-cta {
+    background-color: #D1ECF7;
+    color: #222;
+    padding: .5em 1.5em;
+    border-radius: .5rem;
+    font-size: 1.2rem;
+  }
+
+  h1 {
+    font-weight: weights(bold);
+  }
+}
+
+// Styles for primary nav
+.secondary-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 2em;
+
+  // Search box
+  .search {
+    border-radius: 3rem;
+    overflow: clip;
+    position: relative;
+    background-color: #cecece;
+
+    input {
+      padding: .5em .7em;
+      flex: 1;
+      border: 0;
+      background-color: transparent;
+
+      &::placeholder {
+        color: #222;
+      }
+    }
+
+    .search-icon {
+     padding-right: .7em;
+      
+    }
+  }
+}
+}
+
+// Styles for the requests area
+.requests-area {
+  margin-top: 2em;
+  margin-inline: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  // These select both uls
+  & > * ul {
+    height: auto;
+    overflow-y: scroll;
+    outline: 2px solid red;
   }
 }

@@ -4,6 +4,8 @@ import TimeDetails from '../TimeDetails'
 import { useDashBoardValues } from '../../contexts/DashboardContext'
 import { TimeBar } from '../TimeBar'
 import NoSearchResultImage from '../../assets/error-images/no-search.avif'
+  // A helper function to flatten or merge all nested arrays into one array
+import flatten from "../../../utilities/flatten"
 
 const Attendance = () => {
   // Search query state
@@ -46,14 +48,7 @@ const Attendance = () => {
     getAllUserLogDetails()
   }, [])
 
-  // A helper function to flatten or merge all nested arrays into one array
-  const flatten = arr => {
-    return arr.reduce((flat, toFlatten) => {
-      return flat.concat(
-        Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten
-      )
-    }, [])
-  }
+  
   // Get a mappable / usable version of the array received from the database by flattening it
   let usableDetails = flatten(userLogDetails.map(info => info?.logBarDetails))
 
