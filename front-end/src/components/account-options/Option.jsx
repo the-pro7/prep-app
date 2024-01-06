@@ -12,10 +12,10 @@ const Option = ({ option, onOptionClicked, optionClassName }) => {
   );
 };
 
-Option.propTypes = {
-  option: PropTypes.string.isRequired,
-  selected: PropTypes.string.isRequired,
-  onOptionClicked: PropTypes.func.isRequired,
-};
+// Option.propTypes = {
+//   option: PropTypes.string.isRequired,
+//   selected: PropTypes.string.isRequired,
+//   onOptionClicked: PropTypes.func.isRequired,
+// };
 
 export default Option;

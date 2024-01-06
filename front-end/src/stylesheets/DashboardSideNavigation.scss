@@ -41,23 +41,32 @@
                 border-radius: inherit;
             }
         }
+
+        // Admin badge styles
+        .admin-badge {
+            font-size: 1.5rem;
+            margin-left: auto;
+        }
     }
 
     .actions {
         @include flex(center, unset, 3em, column);
 
-        // This selector, selects all the direct children of the above element
+        // This selector, selects all the direct children of the above element which are buttons
         > * {
-            padding: 1em 1em;
             border: 0;
-            text-align: left;
+            text-align: left !important;
             border-radius: 1rem;
             background-color: $_light-blue-30;
-            width: 70%;
+            padding-block: 1em;
+            padding-inline: 2em 7em;
+            width: -moz-fit-content;
+            width: fit-content;
             font-size: 1.1rem;
             font-weight: weights(semi-bold);
             display: flex;
             align-items: center;
+            justify-content: flex-start;
             gap: 1em;
         }
     }

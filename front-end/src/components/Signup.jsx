@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import '../stylesheets/Signup.scss'
-import { useAuth } from '../contexts/AuthContext'
+// import { useAuth } from '../contexts/AuthContext'
 import { useState, useRef } from 'react'
 import { Alert } from 'react-bootstrap'
 import { AVAILABLE_ROLES } from '../contexts/RoleContext'
@@ -20,7 +20,7 @@ const Signup = () => {
   // Basic navigation setup
   const navigate = useNavigate()
 
-  const { signup, signInWithGoogle } = useAuth()
+  // const { signup, signInWithGoogle, currentUser } = useAuth()
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -43,43 +43,86 @@ const Signup = () => {
     }
 
     setError('')
+    // Get user role to determine admin
+    let role = localStorage.getItem('role')
 
+    // Restructure data to be sent to server
+    const newUser = {
+      name: `${firstNameRef.current.value} ${lastNameRef.current.value}`,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      isAdmin:
+        role == AVAILABLE_ROLES.ROLE_PREP_ADMIN ||
+        role == AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT
+          ? true
+          : false
+    }
+
+    // New way
+    let postOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    }
     try {
-      setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
+      let response = await fetch(
+        'http://localhost:5003/api/users/register',
+        postOptions
+      )
+
+      if (!response.ok) console.log(response.statusText, response.status)
+      let data = await response.json()
       navigate('/login')
-    } catch {
-      console.log('Failed to create an account')
+      console.log(data.message)
+    } catch (error) {
+      console.log('An error occurred', error.message)
     }
 
-    setLoading(false)
+    // Old way
+    // try {
+    //   setLoading(true)
+    //   await signup(emailRef.current.value, passwordRef.current.value)
+
+    //   localStorage.setItem("displayName", `
+    //     ${firstNameRef.current.value} ${lastNameRef.current.value}
+    //   `)
+
+    //   console.log(currentUser?.displayName)
+    //   navigate('/login')
+    // } catch {
+    //   console.log('Failed to create an account')
+    // }
+
+    // setLoading(false)
   }
 
-  const handleGoogleSignIn = async () => {
-    try {
-      setError('')
-      if (!navigator.onLine) {
-        return setError("Failed to sign up. Check your network")
-      } else {
-        await signInWithGoogle()
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     setError('')
+  //     if (!navigator.onLine) {
+  //       return setError("Failed to sign up. Check your network")
+  //     } else {
+  //       await signInWithGoogle()
 
-      }
+  //     }
 
-      let role = localStorage.getItem('role')
-      switch (role) {
-        case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
-          navigate('/hostel-tutor-dashboard')
-          break
-        case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
-          navigate('/prep-admin-dashboard')
-          break
-        default:
-          navigate('/student-dashboard')
-      }
-    } catch {
-      setError('Failed to continue with Google')
-    }
-  }
+  //     let role = localStorage.getItem('role')
+  //     switch (role) {
+  //       case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
+  //         navigate('/hostel-tutor-dashboard')
+  //         break
+  //       case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
+  //         navigate('/prep-admin-dashboard')
+  //         break
+  //       default:
+  //         navigate('/student-dashboard')
+  //     }
+  //   } catch {
+  //     setError('Failed to continue with Google')
+  //   }
+  // }
 
   return (
     <div className='form-wrapper'>
@@ -150,8 +193,8 @@ const Signup = () => {
       </form>
       <div className='other-sign-in-methods'>
         or continue
-        <button onClick={handleGoogleSignIn}>
-          <FontAwesomeIcon icon={faGoogle} /> Continue with Google
+        <button>
+          <FontAwesomeIcon icon={faGoogle} /> Continue with Google - Coming soon
         </button>
         {/* <button>Continue with ManageBac</button> */}
       </div>

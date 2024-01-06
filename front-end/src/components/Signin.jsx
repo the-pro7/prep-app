@@ -15,7 +15,7 @@ const Signin = () => {
   // Basic navigation setup
   const navigate = useNavigate()
 
-  const { login } = useAuth()
+  // const { login } = useAuth()
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -28,28 +28,80 @@ const Signin = () => {
       return setError('Cannot submit an empty form')
     }
 
+    // Restructure user login data
+    const userData = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value
+    }
+
     try {
-      setError('')
-      setLoading(true)
-      await login(emailRef.current.value, passwordRef.current.value)
+      let postOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(userData)
+      }
+
+      // Send user credentials to sign-in
+      let response = await fetch(
+        'http://localhost:5003/api/users/login',
+        postOptions
+      )
+      if (!response.ok) console.log(response.statusText, response.status)
+
+      let data = await response.json()
+      console.log(data)
+      // Set user token to localStorage
+      localStorage.setItem('token', data.token)
+      // Set user  to localStorage
+      localStorage.setItem("user", JSON.stringify(data.user))
+
 
       let role = localStorage.getItem('role')
 
       switch (role) {
         case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
-          navigate('/hostel-tutor-dashboard')
+          navigate(`/hostel-tutor-dashboard/tutor/${data.user?._id}`)
           break
         case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
-          navigate('/prep-admin-dashboard')
+          navigate(`/prep-admin-dashboard/prep-admin/${data.user?._id}`)
           break
         default:
-          navigate('/student-dashboard')
+          navigate(`/student-dashboard/student/${data.user?._id}`)
       }
     } catch {
       setError('Failed to login to your account.')
     }
     setLoading(false)
   }
+
+  // // Sign in with google
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     setError('')
+  //     if (!navigator.onLine) {
+  //       return setError('Failed to sign up. Check your network')
+  //     } else {
+  //       await signInWithGoogle()
+  //     }
+
+  //     let role = localStorage.getItem('role')
+  //     switch (role) {
+  //       case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
+  //         navigate('/hostel-tutor-dashboard')
+  //         break
+  //       case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
+  //         navigate('/prep-admin-dashboard')
+  //         break
+  //       default:
+  //         navigate('/student-dashboard')
+  //     }
+  //   } catch {
+  //     setError('Failed to continue with Google')
+  //   }
+  // }
 
   return (
     <div className='form-wrapper'>
@@ -86,21 +138,20 @@ const Signin = () => {
             {loading ? 'Signing In...' : 'Next'}
           </button>
         </div>
-       
       </form>
       <div className='other-sign-in-methods'>
-          or continue
-          <button>
-            <FontAwesomeIcon icon={faGoogle} /> Continue with Google
-          </button>
-          {/* <button>Continue with ManageBac</button> */}
-        </div>
-        <div className='new-user'>
-          An new user?{' '}
-          <Link to='/signup' className='link'>
-            Sign Up
-          </Link>
-        </div>
+        or continue
+        <button>
+          <FontAwesomeIcon icon={faGoogle} /> Continue with Google - Coming Soon
+        </button>
+        {/* <button>Continue with ManageBac</button> */}
+      </div>
+      <div className='new-user'>
+        An new user?{' '}
+        <Link to='/signup' className='link'>
+          Sign Up
+        </Link>
+      </div>
     </div>
   )
 }

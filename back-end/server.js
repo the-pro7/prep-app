@@ -1,18 +1,22 @@
-const express = require("express");
-const connectDb = require("./config/connectDB");
-require("dotenv").config();
+const express = require('express')
+const connectDb = require('./config/connectDB')
+const cors = require("cors")
+require('dotenv').config()
 
-const app = express();
-const port = process.env.PORT || 5000;
+const app = express()
+const port = process.env.PORT || 5000
 
+// Coonect to MongoDB
 connectDb(process.env.CONNECTION_STRING, port, app)
 
-app.use(express.json());
-app.use((req, res, next) => {
-    console.log(req.path, req.method);
-	next();
-});
+// Middleware from express.js
+app.use(cors({origin: "http://localhost:5173", credentials: true, optionsSuccessStatus: 200}))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.options('/api/users', cors())
 
 // Routes
-const attendance_routes = require("./routes/prep_attendace");
-app.use("/api/attendance", attendance_routes);
+const userRoutes = require("./routes/userRoutes")
+// const requestRoutes = require('./routes/requestRoutes')
+app.use('/api/users', userRoutes)
+// app.use('/api/requests', requestRoutes)

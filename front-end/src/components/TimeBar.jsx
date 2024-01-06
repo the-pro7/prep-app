@@ -1,18 +1,27 @@
 import React from 'react'
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
+import { useDashBoardValues } from '../contexts/DashboardContext'
 
+export const TimeBar = ({
+  status,
+  showExtra,
+  displayName,
+  loggedTime,
+  day,
+}) => {
+ 
+  let upperCasedStatus = status?.toUpperCase()
 
-export const TimeBar = ({showExtra}) => {
   return (
-    <div className='time-log'>
-        {showExtra && <p className='user'>John Doe</p>}
-        <p className='time-logged'>7:30pm</p>
-        <p className='status'>Late</p>
-        <p className='day'>Yesterday</p>
-    </div>
+    <li className={`time-log ${upperCasedStatus}`}>
+      {showExtra && <p className='user' style={{textTransform: "capitalize"}}>{displayName}</p>}
+      <p className='time-logged'>{loggedTime}</p>
+      <p className='status'>{upperCasedStatus}</p>
+      <p className='day'>{day}</p>
+    </li>
   )
 }
 
-TimeBar.propTypes = {
-    showExtra: PropTypes.bool.isRequired,
-}
+// TimeBar.propTypes = {
+//     showExtra: PropTypes.bool.isRequired,
+// }

@@ -8,37 +8,108 @@
     width: 100%;
 
     @include flex(unset, unset, unset, column);
+  }
+}
+// Global
+// List element (ul) to hold all time bars
+.time-log-box {
+  width: 80% !important;
+  margin: 1em auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  height: 43dvh;
+  overflow-y: scroll !important;
+  scroll-behavior: smooth;
 
-    .top-nav {
-      height: fit-content;
-      margin-inline: auto 3rem;
-      margin-block: 2em;
-      display: flex;
-      gap: 1em;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
 
-      > * {
-        padding: 1em 1.5em;
-        border-radius: 1rem;
+// For search included navbar
+.top-nav {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 5em;
+  height: fit-content !important;
+
+  //   Header for admin top nav
+  h2 {
+    font-weight: weights(bold);
+    margin: 0;
+    align-self: flex-end;
+  }
+
+  .search {
+    background-color: rgb(0 0 0 / 0.1);
+    display: flex;
+    align-items: center;
+    border-radius: 3rem;
+    overflow: clip;
+    padding-inline: 0.5em;
+    position: relative;
+
+    input {
+      border: 0;
+      background-color: transparent;
+      padding: 0.7em;
+
+      &:is(:focus-visible, :focus) {
+        outline-color: transparent;
       }
+    }
 
-      .notifications {
-        background-color: rgb(0, 0, 0, 0.1);
-      }
-
-      .new-request {
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
-        background-color: #35e11966;
-        color: #289915;
-        font-weight: weights(semi-bold);
-      }
+    img {
+      padding: 0.5em;
     }
   }
 }
 
+// No search but request navbar
+.default-nav {
+  height: fit-content;
+  margin-inline: auto 3rem;
+  margin-block: 2em;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+
+  > * {
+    padding: 1em 1.5em;
+    border-radius: 1rem;
+  }
+
+  .notifications {
+    background-color: rgb(0, 0, 0, 0.1);
+  }
+
+  .new-request {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    background-color: #35e11966;
+    color: #289915;
+    font-weight: weights(semi-bold);
+  }
+}
+// End Global
+
 // Prep Admin Dashboard
 .prep-admin-dashboard {
+  height: 100dvh;
+  display: flex;
+
+  &__activity-area {
+    width: 100%;
+  }
+}
+
+.hostel-tutor-dashboard {
   height: 100dvh;
   display: flex;
 
@@ -51,99 +122,42 @@
       justify-content: space-between;
       padding: 1em 5em;
 
-    //   Header for admin top nav
-    h2 {
+      //   Header for admin top nav
+      h2 {
         font-weight: weights(bold);
-    }
+      }
 
       .search {
-        background-color: rgb(0 0 0 / .1);
+        background-color: rgb(0 0 0 / 0.1);
         display: flex;
         border-radius: 3rem;
         overflow: clip;
-        padding-inline: .5em;
+        padding-inline: 0.5em;
         position: relative;
 
         input {
-            border: 0;
-            background-color: transparent;
-            padding: .4em;
+          border: 0;
+          background-color: transparent;
+          padding: 0.4em;
 
-            &:is(:focus-visible, :focus) {
-                outline-color: transparent;
-            }
-        }
-
-        img {
-            position: absolute;
-            right: 1rem;
-            top: .57rem;
-            
+          &:is(:focus-visible, :focus) {
+            outline-color: transparent;
+          }
         }
       }
     }
   }
 }
 
-.hostel-tutor-dashboard {
-    height: 100dvh;
-    display: flex;
-  
-    &__activity-area {
-      width: 100%;
-  
-      .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1em 5em;
-  
-      //   Header for admin top nav
-      h2 {
-          font-weight: weights(bold);
-      }
-  
-        .search {
-          background-color: rgb(0 0 0 / .1);
-          display: flex;
-          border-radius: 3rem;
-          overflow: clip;
-          padding-inline: .5em;
-          position: relative;
-  
-          input {
-              border: 0;
-              background-color: transparent;
-              padding: .4em;
-  
-              &:is(:focus-visible, :focus) {
-                  outline-color: transparent;
-              }
-          }
-  
-          img {
-              position: absolute;
-              right: 1rem;
-              top: .57rem;
-              
-          }
-        }
-      }
-    }
-  }
-  
-
-// For student time logged i
+// For student time logged in
 .time-box {
   align-self: center;
   width: 80%;
   margin: 0 auto;
   padding: 1em;
   border-radius: 1.5rem;
-  background-color: #fbdbe0;
 
   .time-logged-in {
-    color: #ae1531ed;
     font-size: 1.2rem;
   }
 
@@ -153,7 +167,6 @@
     .time {
       margin: 0;
       font-size: 10rem;
-      color: #ff2828;
 
       .modulation {
         font-size: 3rem;
@@ -162,7 +175,6 @@
     }
 
     .status-text {
-      color: #ff2828;
       font-size: 2rem;
       letter-spacing: 1.5px;
       margin-top: -1em;
@@ -174,9 +186,9 @@
 .time-details {
   box-sizing: border-box;
   display: flex;
-  width: 75%;
-  max-width: 900px;
+  width: 80%;
   margin: 1em auto;
+  padding-inline: 2.5em;
   justify-content: space-between;
 }
 
@@ -185,17 +197,26 @@
 }
 
 .time-log {
-  width: 80%;
-  max-width: 900px;
+  width: 100%;
   @include flex(space-between, center, 0, row);
-  margin: 0 auto;
-  background-color: #fbdbe0;
   padding: 1em 2em;
+  background-color: #94be76;
+  color: #415333;
   font-weight: weights(medium);
   border-radius: 1rem;
-  color: #ff2828;
 }
 
 .time-log > * {
   margin: 0;
+}
+
+// status based colours
+.EARLY {
+  background-color: #c9e0b9;
+  color: #33a853;
+}
+
+.LATE {
+  color: #ff2828;
+  background-color: #fbdbe0;
 }
