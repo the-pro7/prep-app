@@ -2,7 +2,7 @@
 A prep web app for schools to monitor student's prep attendance
 
 ## Here's the cover image of the app
-![Prep App Cover]("./front-end/src/assets/cover.png")
+![Prep App Cover](./front-end/src/assets/cover.png)
 
 ## Technologies Used 🔨
 - React (Vite Template)
