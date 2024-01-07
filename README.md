@@ -20,7 +20,7 @@ A prep web app for schools to monitor students' prep attendance
 - Then `npm i` or  `npm install` while in the folder to install the necessary dependencies
 - Then open a new terminal and `cd` into the `back-end` folder with the command `cd back-end` and run `npm i` or `npm install` to install the necessary dependencies/packages
 - Be sure to include your database  `CONNECTION_STRING` in the `.env` file from your MongoDB Atlas Cluster
-- Add a `JWT_SECRET` for creating/signing web tokens with jwt
+- Add a `JWT_SECRET` for creating/signing web tokens with jwt for users of the app
 
 - Finally `cd` to `front-end` in your terminal if you are not in it currently, and run `npm run dev`  to start the `vite` server to run the `front-end`
 - Also `cd` into `back-end` folder from your terminal and run `npm run backend` to start the backend server
