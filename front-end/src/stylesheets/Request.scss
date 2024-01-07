@@ -239,12 +239,77 @@
   margin-top: 2em;
   margin-inline: 2em;
   display: grid;
+  gap: 2em;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
   // These select both uls
   & > * ul {
-    height: auto;
+    height: 73dvh;
     overflow-y: scroll;
-    outline: 2px solid red;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 0;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  // Boxes 
+  .request-box {
+    padding: 1em;
+    border-radius: 1.1rem;
+    background-color: #82c5e8;
+
+    // Headers
+    h4 {
+      margin: 0;
+      font-weight: weights(bold);
+    }
+   
+    .content {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+
+    // Style user avatar holders
+    .avatar {
+      width: 20%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background-color: #dbdbdb;
+    }
+
+    // request action button styles
+    .request-ctas {
+      width: fit-content;
+      width: -moz-fit-content;
+      margin-left: auto;
+      display: flex;
+      gap: .5em;
+
+      button {
+        padding: .5em .8em;
+        border-radius: .4rem;
+        cursor: pointer;
+      }
+
+      // Style the approve button
+      .approve {
+        background-color: #AEF3A3;
+        color: #289915;
+      }
+      
+      // Style the disapprove button
+      .disapprove {
+         background-color: #FCB2B2;
+         color: #FF2828;
+      }
+    }
+
+
   }
 }

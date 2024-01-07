@@ -4,3 +4,7 @@
 body {
     font-family: "Poppins", sans-serif;
 }
+
+input:is(:active, :focus-visible, :focus, :focus-within) {
+    outline-color: transparent;
+}

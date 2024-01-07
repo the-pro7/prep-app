@@ -10,7 +10,8 @@ var _require2 = require('../controllers/userController'),
     postNewRequest = _require2.postNewRequest,
     getAllRequests = _require2.getAllRequests,
     getAllLogDetails = _require2.getAllLogDetails,
-    getAllStudentRequests = _require2.getAllStudentRequests;
+    getAllStudentRequests = _require2.getAllStudentRequests,
+    approveRequest = _require2.approveRequest;
 
 var _require3 = require('../middleware/authMiddleware'),
     authenticate = _require3.authenticate,
@@ -23,7 +24,9 @@ router.post('/login', loginUser);
 router.get('/logout', logoutUser); // Request routes
 
 router.post('/new-request/:id', authenticate, postNewRequest);
-router.get('/all-requests/:id', authenticate, getAllRequests); // Grab all time log details of users
+router.get('/all-requests/:id', authenticate, getAllRequests); // Route to approve user requests
+
+router.post("/approve-request/:id", authenticate, authorizeAdmin, approveRequest); // Grab all time log details of users
 
 router.get('/log-details', authenticate, authorizeAdmin, getAllLogDetails); // Grab all student requests
 

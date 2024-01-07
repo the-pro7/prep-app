@@ -169,6 +169,7 @@ const postNewRequest = asyncHandler(async (req, res, next) => {
   }
 
   const newRequest = await new Request({
+    name: userAvailable?.name,
     userClass,
     hostel,
     hostelPrefect,
@@ -247,8 +248,8 @@ const getAllStudentRequests = asyncHandler(async (req, res, next) => {
   }
 
   try {
-    let allUsers = await User.find({}).select('-password')
-    res.status(200).json(allUsers)
+    let allRequests = await Request.find({})
+    res.status(200).json(allRequests)
   } catch (error) {
     res.status(500).json({ message: `Sever had an error: ${error}` })
   }
@@ -296,6 +297,35 @@ const getAllLogDetails = asyncHandler(async (req, res, next) => {
   }
 })
 
+// @route /api/users/approve-request
+// @access PRIVATE
+// @desc Approve a request based on Id
+const approveRequest = asyncHandler(async (req, res, next) => {
+  if (!req.user && !req.user.isAdmin) {
+    next(
+      res
+        .status(401)
+        .json({ message: 'You are not allowed to perform this action' })
+    )
+  }
+
+  // Find request with provided ID
+  let requestAvailable = await Request.findById(req.params.id)
+
+  try {
+    if (requestAvailable) {
+      requestAvailable.approved = true
+      await requestAvailable.save()
+      res.status(200).json({ message: 'Request approved' })
+    } else {
+      res.status(404).json({ message: 'Request not found, try again' })
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Server encountered a problem', error: error.message })
+  }
+})
 /* =============== NOTE =============== */
 // The "?." is called the optional chaining operator, which was included in JS recently
 // It helps to prevent error messages when the property being chained does not exist
@@ -307,5 +337,6 @@ module.exports = {
   postNewRequest,
   getAllRequests,
   getAllLogDetails,
-  getAllStudentRequests
+  getAllStudentRequests,
+  approveRequest
 }

@@ -7,6 +7,10 @@ var _require2 = require("mongoose"),
     Schema = _require2.Schema;
 
 var requestSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
   userClass: {
     type: String,
     required: true
@@ -29,7 +33,7 @@ var requestSchema = new Schema({
   },
   approved: {
     type: Boolean,
-    required: false,
+    required: true,
     "default": false
   }
 }, {

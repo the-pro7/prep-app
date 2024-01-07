@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   faAngleLeft,
   faMagnifyingGlass
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import UnapprovedRequests from './UnapprovedRequests'
-import ApprovedRequests from './ApprovedRequests'
-import flatten from '../../../utilities/flatten'
+import UnapprovedRequests from './unapproved/UnapprovedRequests'
+import ApprovedRequests from './approved/ApprovedRequests'
 
 // Admin requests panel
 const AdminRequestPanel = ({ showStudentRequests }) => {
   const token = localStorage.getItem('token')
+  const [requestData, setRequestData] = useState([])
+  const [search, setSearch] = useState('')
 
   // Get all requests from server
   useEffect(() => {
@@ -32,12 +33,20 @@ const AdminRequestPanel = ({ showStudentRequests }) => {
         if (!response.ok) console.log(response.statusText)
 
         let data = await response.json()
-        console.log(data)
+        setRequestData(data)
       } catch (error) {
         console.log(error.message)
       }
     }
+
+    // Call function to get all user requests
+    getAllStudentRequests()
   }, [])
+
+  // Get approved requests
+  const approveRequests = requestData.filter(
+    request => request?.approved === true
+  )
 
   return (
     <div className='admin-requests'>
@@ -50,16 +59,21 @@ const AdminRequestPanel = ({ showStudentRequests }) => {
       <div className='secondary-nav'>
         <h3>Requests</h3>
         <div className='search'>
-          <input type='search' id='search' placeholder='Search...' />
+          <input
+            type='search'
+            id='search'
+            placeholder='Search...'
+            onChange={e => setSearch(e.target.value)}
+          />
           <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
         </div>
       </div>
       <div className='requests-area'>
         <div className='not-approved'>
-          <UnapprovedRequests />
+          <UnapprovedRequests requests={requestData} searchQuery={search} />
         </div>
         <div className='approved'>
-          <ApprovedRequests />
+          <ApprovedRequests requests={approveRequests} />
         </div>
       </div>
     </div>

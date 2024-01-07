@@ -2,6 +2,10 @@ const {model} = require("mongoose")
 const {Schema} = require("mongoose")
 
 const requestSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
     userClass: {
         type: String,
         required: true
@@ -24,7 +28,7 @@ const requestSchema = new Schema({
     },
     approved: {
         type: Boolean,
-        required: false,
+        required: true,
         default: false
     }
 }, {

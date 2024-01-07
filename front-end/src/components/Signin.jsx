@@ -65,8 +65,8 @@ const Signin = () => {
 
       // Take the user to their dashboard based on the role they chose
       switch (role) {
-        case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
-          navigate(`/hostel-tutor-dashboard/tutor/${data.user?._id}`)
+          case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
+        navigate(`/hostel-tutor-dashboard/tutor/${data.user?._id}`)
           break
         case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
           navigate(`/prep-admin-dashboard/prep-admin/${data.user?._id}`)
