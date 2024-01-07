@@ -87,6 +87,7 @@
 
         .other-sign-in-methods {
             display: grid;
+            width: -moz-fit-content;
             width: fit-content;
             margin: 0 auto;
             gap: .5em;

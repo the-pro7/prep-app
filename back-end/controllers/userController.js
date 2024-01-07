@@ -202,12 +202,13 @@ const postNewRequest = asyncHandler(async (req, res, next) => {
 // @access PRIVATE
 // @desc Get all user's requests based on their ID
 const getAllRequests = asyncHandler(async (req, res, next) => {
-  // Check if user exists and has a valid id
+  // Check if user exists and has a valid id passed in the URL
   if (!req.user && !req.params?.id) {
     next(res.status(404).json({ message: 'User not found, try again!' }))
   }
   // Find user with the provided ID
   const userAvailable = await User.findById(req.params?.id)
+
 
   try {
     if (userAvailable) {
@@ -228,12 +229,13 @@ const getAllRequests = asyncHandler(async (req, res, next) => {
         updatedAt: 0,
         __v: 0
       }
-      // New find a user with the available user's id and get the requests property only by passing in the projection
+      // New find a user with the available user's id and get only the requests property  by passing in the projection
       let requests = await User.find({ _id: userAvailable?._id }, projection)
-      res.status(200).json(requests)
+      next(res.status(200).json(requests))
     }
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    // Show a server error with the error's message
+    next(res.status(500).json({ message: error.message }))
   }
 })
 
@@ -330,6 +332,7 @@ const approveRequest = asyncHandler(async (req, res, next) => {
 // The "?." is called the optional chaining operator, which was included in JS recently
 // It helps to prevent error messages when the property being chained does not exist
 
+// Export the controller's to be used in the userRoutes.js file
 module.exports = {
   createNewUser,
   loginUser,

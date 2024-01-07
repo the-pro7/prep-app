@@ -8,7 +8,7 @@ const ApprovedBox = ({name, requestBody, avatar}) => {
       <div className="avatar">
       <img src="#" alt="" />
       </div>
-      <div className="request-content">
+      <div className="request-content content">
         <h4>{name}</h4>
         <summary>{requestBody}</summary>
       </div>

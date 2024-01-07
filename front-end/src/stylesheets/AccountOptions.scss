@@ -1,7 +1,7 @@
 @import './config';
 
 .account-wrapper {
-  height: 80dvh;
+  height: 60dvh;
   @include flex(center, center, unset, unset);
 }
 

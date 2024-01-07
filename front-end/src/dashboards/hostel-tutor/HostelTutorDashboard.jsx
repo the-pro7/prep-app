@@ -4,10 +4,13 @@ import TimeDetails from '../../components/TimeDetails'
 import MagnifyingGlass from '../../assets/search-icon.svg'
 import HostelTutorAttendance from '../../components/attendance/HostelTutorAttendance'
 import AdminRequestPanel from '../../components/request/AdminRequestPanel'
+import AdminNotifications from '../../components/notifications/AdminNotifications'
 
 const HostelTutorDashboard = ({ hostelName }) => {
   const [search, setSearch] = useState('')
   const [showStudentRequests, setShowStudentRequests] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [requestsAvailable, setRequestsAvailable] = useState(false)
 
   return (
     <main className='hostel-tutor-dashboard'>
@@ -15,7 +18,9 @@ const HostelTutorDashboard = ({ hostelName }) => {
         showAttendanceButton={false}
         setShowStudentRequests={setShowStudentRequests}
         showStudentRequests={showStudentRequests}
+        setShowNotifications={setShowNotifications}
       />
+      {showNotifications && <AdminNotifications />}
       {!showStudentRequests ? (
         <section className='hostel-tutor-dashboard__activity-area'>
           <div className='top-nav'>

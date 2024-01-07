@@ -156,18 +156,20 @@
 }
 
 .requests > * {
-  background-color: #29991579;
   margin-inline: 1em;
   padding: 1em;
   border-radius: 1rem;
   display: inherit;
   align-items: center;
   gap: 2em;
-  color: #289915 !important;
   outline: 2px solid currentColor;
 
   h3 {
     margin: 0;
+  }
+
+  summary {
+    font-size: 1.2rem;
   }
 
   .created-at {
@@ -262,6 +264,8 @@
     padding: 1em;
     border-radius: 1.1rem;
     background-color: #82c5e8;
+    display: flex;
+    flex-basis: 100px;
 
     // Headers
     h4 {
@@ -269,18 +273,15 @@
       font-weight: weights(bold);
     }
    
-    .content {
-      display: flex;
-      align-items: center;
-      gap: 1em;
-    }
 
     // Style user avatar holders
     .avatar {
-      width: 20%;
+      img {
+        width: 60px;
       aspect-ratio: 1;
       border-radius: 50%;
       background-color: #dbdbdb;
+      }
     }
 
     // request action button styles

@@ -1,5 +1,8 @@
+// Get mongoose, a MongoDB helper from the package.json file
 const mongoose = require('mongoose')
 
+// This a schema or structure for how every user should look like
+// A type of string tells MongoDB that the data passed in should be enclosed in ""
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -20,9 +23,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: false
     },
+    // The  [mongoose.Schema.Types.Mixed] tells MongoDB that the property would hold an array of different JS data types
     requests: {
       type: [mongoose.Schema.Types.Mixed],
       required: false,
+      // A default of an empty array since user's should start with an empty array of requests
       default: [],
     },
     daySignIn: {
@@ -32,6 +37,7 @@ const userSchema = mongoose.Schema(
     logBarDetails: {
       type: [mongoose.Schema.Types.Mixed],
       required: false,
+      // A default of an empty array since user's should start with an empty array of requests
       default: []
     },
     signInStatus: {

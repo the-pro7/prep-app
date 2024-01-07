@@ -35,7 +35,10 @@ const UnapprovedBox = ({ name, requestBody, avatar, approved, requestId }) => {
       className='request-box'
       style={{ display: approved || hide ? 'none' : 'block' }}
     >
-      <div className='content'>
+      <div
+        className='content'
+        style={{ display: 'flex', gap: '1em', alignItems: 'center' }}
+      >
         <div className='avatar'>
           <img src='#' alt='' />
         </div>

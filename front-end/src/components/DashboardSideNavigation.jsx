@@ -12,7 +12,9 @@ import { useDashBoardValues } from '../contexts/DashboardContext'
 
 const DashboardSideNavigation = ({
   showAttendanceButton,
-  setShowStudentRequests
+  setShowStudentRequests,
+  setShowNotifications,
+  requestsAvailable
 }) => {
   // const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
@@ -20,6 +22,7 @@ const DashboardSideNavigation = ({
     useDashBoardValues()
   const user = JSON.parse(localStorage.getItem('user'))
 
+  // Function to handle logging out of currently active users
   const logoutUser = async () => {
     try {
       let response = await fetch('http://localhost:5003/api/users/logout')
@@ -67,6 +70,7 @@ const DashboardSideNavigation = ({
           }}
         >
           <img src={loopIcon} alt='' /> Requests
+          {/* <span className='request-in'></span> */}
         </button>
         <button className='actions_notifications'>
           <img src={notificationIcon} alt='' />

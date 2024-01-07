@@ -1,6 +1,7 @@
 const {model} = require("mongoose")
 const {Schema} = require("mongoose")
 
+// A schema to set the structure of how a user's request should be like
 const requestSchema = new Schema({
     name: {
         type: String,

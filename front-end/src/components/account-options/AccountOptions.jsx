@@ -6,6 +6,7 @@ import { useSelection } from '../../contexts/RoleContext'
 import { AVAILABLE_ROLES } from '../../contexts/RoleContext'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Caution from './Caution'
 const AccountOptions = () => {
   const navigate = useNavigate()
   // Getting the value dependencies and destructuring them
@@ -18,8 +19,7 @@ const AccountOptions = () => {
     setRoleChosen(true)
   }, [])
 
-  // funtion that is called when the next button is clicked
-
+  // Function that is called when the next button is clicked
   const handleNext = () => {
     setRoleChosen(true)
     if (roleChosen) {
@@ -85,6 +85,8 @@ const AccountOptions = () => {
           </button>
         </div>
       </div>
+      {/* Show caution message */}
+      <Caution />
     </>
   )
 }

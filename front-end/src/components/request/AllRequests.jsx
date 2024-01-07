@@ -5,7 +5,7 @@ import RequestIem from './RequestIem'
 // import { useAuth } from '../../contexts/AuthContext'
 import { useDashBoardValues } from '../../contexts/DashboardContext'
 
-const AllRequests = props => {
+const AllRequests = () => {
   const location = useLocation()
   let user = JSON.parse(localStorage.getItem('user'))
   let token = localStorage.getItem('token')
@@ -30,19 +30,15 @@ const AllRequests = props => {
 
         // Get data from response json
         let data = await response.json()
-        console.log('The data happens to be', data[0]?.requests)
+        // console.log('The data happens to be', data[0]?.requests)
         setCurrentData(data[0]?.requests)
       } catch (error) {
         console.log(error.message)
       }
     }
-    // Check if there is a currently active user and also if their ID is included in the pathname
-    if (
-      user &&
-      location.pathname.includes(`/student-dashboard/student/${user?._id}` || `/prep-admin-dashboard/prep-admin/${user?._id}`)
-    ) {
-      getAllRequests()
-    }
+    
+    // Call the function to get all request based on the ID of the currently logged in user
+    getAllRequests()
   }, [])
 
   let requestInfo = currentData

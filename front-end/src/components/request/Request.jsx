@@ -87,8 +87,7 @@ const Request = () => {
 
   return (
     <div className='wrapper'>
-      <Link className='back-link' onClick={() => navigate(-1)}>
-        {' '}
+      <Link className='back-link'to={-1}>
         <FontAwesomeIcon icon={faArrowAltCircleLeft} /> Back Home
       </Link>
       {responseMessage && (
@@ -154,7 +153,7 @@ const Request = () => {
           <div className='form-group full-width'>
             <label htmlFor='issue'>Issues</label>
             <textarea
-              id='issure'
+              id='issue'
               cols='30'
               rows='10'
               maxLength={250}
