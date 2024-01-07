@@ -25,8 +25,9 @@ A prep web app for schools to monitor students' prep attendance
 - Finally `cd` to `front-end` in your terminal if you are not in it currently, and run `npm run dev`  to start the `vite` server to run the `front-end`
 - Also `cd` into `back-end` folder from your terminal and run `npm run backend` to start the backend server
 
- __*NOTE:*__ *You need to __whitelist your IP address__ in your MongoDB Atlas Cluster to be able to access the database from your current IP adress*
- __Happy Coding!__
+ __*NOTE:*__ *You need to __whitelist your IP address__ in your MongoDB Atlas Cluster to be able to access the database from your current IP address*
+ 
+ __Happy Coding fam!__
 
 ## Contact the developers 📧
 The developer's contact information is here.
