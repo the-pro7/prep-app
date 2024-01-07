@@ -1,5 +1,5 @@
 # School Prep App
-A prep web app for schools to monitor students' prep attendance
+A prep web app for SOS-HGIC to monitor students' prep attendance
 
 ## Here's the cover image of the app
 ![Prep App Cover](./front-end/src/assets/cover.png)
