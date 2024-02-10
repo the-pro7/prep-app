@@ -8,7 +8,8 @@ const {
   getAllRequests,
   getAllLogDetails,
   getAllStudentRequests,
-  approveRequest
+  approveRequest,
+  googleSignUp
 } = require('../controllers/userController')
 // Grab authentication and admin authorization files from the authMiddleware.js file
 const { authenticate, authorizeAdmin } = require('../middleware/authMiddleware')
@@ -20,6 +21,9 @@ const router = Router()
 router.post('/register', createNewUser)
 router.post('/login', loginUser)
 router.get('/logout', logoutUser)
+
+// Google signup route
+router.post("auth/google/callback", googleSignUp)
 
 // Request routes
 router.post('/new-request/:id', authenticate, postNewRequest)

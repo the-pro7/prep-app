@@ -19,6 +19,9 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true
     },
+    googleId: {
+      type: String
+    },
     avatar: {
       type: String,
       required: false
