@@ -11,8 +11,8 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 passport.use(
   new GoogleStrategy(
     {
-      clientID: "",
-      clientSecret: "",
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "auth/google/callback",
     },
     function (accessToken, refrechToken, profile, done) {
@@ -42,7 +42,11 @@ passport.use(
   )
 );
 
-const googleSignUp = () => {};
+const googleSignIn = passport.authenticate("google", {scope: ["profile",  "email"]})
+const googleSignInCallBack = passport.authenticate("google", {
+  successRedirect: "/dashboard",
+  failureRedirect: "/login"
+})
 
 // @route /api/users/register
 // @access PUBLIC
@@ -380,5 +384,6 @@ module.exports = {
   getAllLogDetails,
   getAllStudentRequests,
   approveRequest,
-  googleSignUp,
+  googleSignIn,
+  googleSignInCallBack
 };
