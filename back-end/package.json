@@ -8,7 +8,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
-    "mongosh": "^2.1.1"
+    "mongosh": "^2.1.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
   },
   "scripts": {
     "backend": "nodemon ./server.js",
