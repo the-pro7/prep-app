@@ -11,8 +11,15 @@ import PrepAdminDashboard from './dashboards/prep-admin/PrepAdminDashboard'
 import HostelTutorDashboard from './dashboards/hostel-tutor/HostelTutorDashboard'
 import NotFound from './components/NotFound'
 import Request from './components/request/Request'
+import UserProfile from './components/profile/UserProfile'
+import React from 'react'
+// Lazily ;oaded components
+// const UserProfile = React.lazy(() => import("./components/profile/UserProfile"))
+// const NotFound = React.lazy(() => import("./components/NotFound"))
 
 const App = () => {
+  // Get user role
+  const role = localStorage.getItem("role")
   return (
     <>
       {/* <AuthProvider> */}
@@ -53,6 +60,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <HostelTutorDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={`/${role}/:id/profile`}
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
                 </ProtectedRoute>
               }
             />

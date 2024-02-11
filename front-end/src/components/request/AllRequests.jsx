@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import RequestIem from './RequestIem'
 // import { useAuth } from '../../contexts/AuthContext'
 import { useDashBoardValues } from '../../contexts/DashboardContext'
@@ -64,7 +64,7 @@ const AllRequests = () => {
                 key={info._id}
               />
             ))
-          : 'No requests yet'}
+          : <span>No requests yet <Link to={`${user?._id}/new-request`}>Make one</Link></span>}
       </ul>
     </section>
   )

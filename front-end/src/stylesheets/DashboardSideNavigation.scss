@@ -76,11 +76,49 @@
         margin-top: auto;
         margin-bottom: 1em;
         @include flex(flex-end, center, .5em, row);
+        position: relative;
 
         > * {
             padding: 1em 1.5em;
             border-radius: 1rem;
 
+        }
+
+        .pop-up {
+            position: absolute;
+            left: 4rem;
+            bottom: 3rem;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 0;
+            overflow: clip;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: all 300ms ease;
+
+            > * {
+                padding: 1em 3em 1em 1em;
+                display: inherit;
+                align-items: center;
+                gap: .5em;
+
+                a {
+                    text-decoration: none;
+                    color: #444e;
+
+                }
+                &:hover {
+                    background-color: #4444442f;
+                    
+                }
+            }
+        }
+
+        .pop-up.show {
+            transform: translateX(0);
+            opacity: 1;
         }
 
         .settings {

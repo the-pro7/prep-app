@@ -9,6 +9,8 @@ const {
   getAllLogDetails,
   getAllStudentRequests,
   approveRequest,
+  googleSignIn,
+  googleSignInCallBack
 } = require('../controllers/userController')
 // Grab authentication and admin authorization files from the authMiddleware.js file
 const { authenticate, authorizeAdmin } = require('../middleware/authMiddleware')

@@ -8,39 +8,39 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 // Google signup
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "auth/google/callback",
-    },
-    function (accessToken, refrechToken, profile, done) {
-      User.findOne({ googleId: profile.id }, async (error, existingUser) => {
-        if (err) return done(error, false);
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID: process.env.CLIENT_ID,
+//       clientSecret: process.env.CLIENT_SECRET,
+//       callbackURL: "auth/google/callback",
+//     },
+//     function (accessToken, refrechToken, profile, done) {
+//       User.findOne({ googleId: profile.id }, async (error, existingUser) => {
+//         if (err) return done(error, false);
 
-        // Check if user exists and rerturn user
-        if (existingUser) {
-          return done(null, existingUser);
-        } else {
-          // Create a new user
-          const newUser = new User({
-            name: profile.name,
-            email: profile.emails[0].value,
-            googleId: profile.id
-          })
+//         // Check if user exists and rerturn user
+//         if (existingUser) {
+//           return done(null, existingUser);
+//         } else {
+//           // Create a new user
+//           const newUser = new User({
+//             name: profile.name,
+//             email: profile.emails[0].value,
+//             googleId: profile.id
+//           })
 
-          await newUser.save((error) => {
-              if (error) return done(error, null)
+//           await newUser.save((error) => {
+//               if (error) return done(error, null)
 
-              // Saved user successfully
-              return done(null, newUser)
-          })
-        }
-      });
-    }
-  )
-);
+//               // Saved user successfully
+//               return done(null, newUser)
+//           })
+//         }
+//       });
+//     }
+//   )
+// );
 
 const googleSignIn = passport.authenticate("google", {scope: ["profile",  "email"]})
 const googleSignInCallBack = passport.authenticate("google", {
