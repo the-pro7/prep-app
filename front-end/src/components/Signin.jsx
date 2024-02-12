@@ -22,6 +22,7 @@ const Signin = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     setError('')
+    setLoading(false)
 
     if (!emailRef.current.value || !passwordRef.current.value) {
       return setError('Cannot submit an empty form')
@@ -34,6 +35,8 @@ const Signin = () => {
     }
 
     try {
+      setLoading(true)
+      // Options for post request
       let postOptions = {
         method: 'POST',
         headers: {
@@ -76,9 +79,11 @@ const Signin = () => {
           break
       }
     } catch (error) {
+      setLoading(false)
       setError('Failed to login to your account.' + error)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   // // Sign in with google

@@ -54,7 +54,7 @@ const DashboardSideNavigation = ({
       <div className="profile">
         <div className="profile__image">
           {user?.avatar ? (
-            <img src={user?.avatar} alt="" className="profile__image-img" />
+            <img src={`http://localhost:5003/uploads/${user.avatar}`} alt="Your avatar" className="profile__image-img" />
           ) : (
             <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.5rem" }} />
           )}

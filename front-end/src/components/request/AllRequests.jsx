@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import RequestIem from './RequestIem'
 // import { useAuth } from '../../contexts/AuthContext'
 import { useDashBoardValues } from '../../contexts/DashboardContext'
 
 const AllRequests = () => {
-  const location = useLocation()
   let user = JSON.parse(localStorage.getItem('user'))
   let token = localStorage.getItem('token')
   const [currentData, setCurrentData] = useState([])
@@ -64,7 +62,7 @@ const AllRequests = () => {
                 key={info._id}
               />
             ))
-          : <span>No requests yet <Link to={`${user?._id}/new-request`}>Make one</Link></span>}
+          : <span>No requests yet</span>}
       </ul>
     </section>
   )

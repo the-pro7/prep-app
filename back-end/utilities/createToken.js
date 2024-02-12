@@ -14,7 +14,7 @@ const createToken = (res, userId, userName, userEmail, isAdmin) => {
     secure: true,
     sameSite: 'strict',
     httpOnly: true,
-    maxAge: 24 * 30 * 60 * 50 * 1000
+    maxAge: 24 * 30 * 60 * 60 * 1000
   })
 
   return token

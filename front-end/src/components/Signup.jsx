@@ -10,7 +10,6 @@ import { AVAILABLE_ROLES } from "../contexts/RoleContext";
 
 const Signup = () => {
   // These are references to the respective input fields of the form, to allow us to retrieve their value
-
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
@@ -23,6 +22,8 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+
+  // Main function to signup user
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -65,42 +66,47 @@ const Signup = () => {
       body: JSON.stringify(newUser),
     };
     try {
+      setLoading(true);
       let response = await fetch(
         "http://localhost:5003/api/users/register",
         postOptions
       );
 
       if (!response.ok) console.log(response.statusText, response.status);
-      let data = await response.json();
+      // let data = await response.json();
       navigate("/login");
-      console.log(data.message);
+      // console.log(data.message);
     } catch (error) {
+      setLoading(false);
       console.log("An error occurred", error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    setError("");
-    try {
-      setLoading(true)
-      window.location.href = "http://localhost:5003/auth/google";
+  // const handleGoogleSignIn = async () => {
+  //   setError("");
+  //   try {
+  //     setLoading(true)
+  //     window.location.href = "http://localhost:5003/auth/google";
 
-      let role = localStorage.getItem("role");
-      switch (role) {
-        case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
-          navigate("/hostel-tutor-dashboard");
-          break;
-        case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
-          navigate("/prep-admin-dashboard");
-          break;
-        default:
-          navigate("/student-dashboard");
-      }
-    } catch {
-      setLoading(false)
-      setError("Failed to continue with Google");
-    }
-  };
+  //     let role = localStorage.getItem("role");
+  //     switch (role) {
+  //       case AVAILABLE_ROLES.ROLE_HOSTEL_TUTOR_PREFECT:
+  //         navigate("/hostel-tutor-dashboard");
+  //         break;
+  //       case AVAILABLE_ROLES.ROLE_PREP_ADMIN:
+  //         navigate("/prep-admin-dashboard");
+  //         break;
+  //       default:
+  //         navigate("/student-dashboard");
+  //     }
+  //   } catch {
+  //     setLoading(false)
+  //     setError("Failed to continue with Google");
+  //   }
+  // };
 
   return (
     <div className="form-wrapper">
@@ -165,13 +171,13 @@ const Signup = () => {
             />
           </div>
           <button type="submit" disabled={loading}>
-            Next
+            {loading ? "Creating..." : "Next"}
           </button>
         </div>
       </form>
       <div className="other-sign-in-methods">
         or continue
-        <button onClick={handleGoogleSignIn}>
+        <button>
           <FontAwesomeIcon icon={faGoogle} /> Continue with Google - Coming soon
         </button>
         {/* <button>Continue with ManageBac</button> */}

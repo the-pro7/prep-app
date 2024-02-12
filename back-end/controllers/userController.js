@@ -1,10 +1,13 @@
 const asyncHandler = require("../middleware/asyncHandler");
 const Request = require("../models/requestModel");
+const path = require("path");
+const fs = require("fs");
 const User = require("../models/userModel");
 const createToken = require("../utilities/createToken");
 const determineSignInStatus = require("../utilities/determineUserStatus");
 const { genSalt, hash, compare } = require("bcrypt");
 const passport = require("passport");
+const { v4: uuid } = require("uuid");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 // Google signup
@@ -42,11 +45,13 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 //   )
 // );
 
-const googleSignIn = passport.authenticate("google", {scope: ["profile",  "email"]})
+const googleSignIn = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
 const googleSignInCallBack = passport.authenticate("google", {
   successRedirect: "/dashboard",
-  failureRedirect: "/login"
-})
+  failureRedirect: "/login",
+});
 
 // @route /api/users/register
 // @access PUBLIC
@@ -90,9 +95,11 @@ const loginUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password)
-    res
-      .status(422)
-      .json({ message: "Invalid credentials, check your credentials" });
+    return next(
+      res
+        .status(422)
+        .json({ message: "Invalid credentials, check your credentials" })
+    );
 
   try {
     // Check if user if is available
@@ -100,9 +107,11 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
     // Throw error if user does not exists
     if (!userAvailable) {
-      res
-        .status(404)
-        .json({ message: "Could not find user with the provided credentials" });
+      return next(
+        res.status(404).json({
+          message: "Could not find user with the provided credentials",
+        })
+      );
     }
 
     // Update user details
@@ -156,7 +165,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
       );
 
       // Send the final user over to the client app
-      res.status(200).json({
+      return res.status(200).json({
         user: {
           _id: userAvailable?._id,
           daySign: userAvailable?.daySignIn,
@@ -167,15 +176,155 @@ const loginUser = asyncHandler(async (req, res, next) => {
           name: userAvailable?.name,
           requests: userAvailable?.requests,
           signInStatus: userAvailable?.signInStatus,
+          avatar: userAvailable?.avatar,
         },
         // Send their auth token too, this will be needed
         token,
       });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    return next(
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message })
+    );
+  }
+});
+
+// @route /api/users/update-profile
+// @access PUBLIC
+// @desc Update user profile
+const updateUserProfile = asyncHandler(async (req, res, next) => {
+  // Guard clause
+  if (!req.user || !req.user.userId) {
+    return res
+      .status(400)
+      .json({ message: "You need to be logged in to perform this action" });
+  }
+
+  // Try update logic
+  try {
+    // Get new details from request body
+    const { name, email, password } = req.body;
+
+    // Find user with provided ID
+    const userAvailable = await User.findById(req.user.userId);
+
+    if (!userAvailable) {
+      return res
+        .status(401)
+        .json({ message: "No user found with the provided ID" });
+    }
+
+    // Initialize password
+    let newPasswordHashed;
+    if (password) {
+      // Create new hashed password if user provides a new password
+      let salt = await genSalt(10);
+      newPasswordHashed = await hash(password, salt);
+    }
+
+    // Update user
+    await User.findByIdAndUpdate(
+      req.user.userId,
+      {
+        name: name,
+        email: email,
+        password: newPasswordHashed,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Profile details updated successfully",
+      user: userAvailable,
+    });
+  } catch (error) {
+    next(res.status(500).json({ message: error.message }));
+  }
+});
+
+// @route /api/users/update-profile-image
+// @access PUBLIC
+// @desc Update user profile image
+const updateUserProfileImage = asyncHandler(async (req, res, next) => {
+  if (!req.user)
+    return next(res.status(404).json({ message: "User not found" }));
+
+  if (!req.files)
+    return next(
+      res.status(404).json({ message: "No image chosen, choose one" })
+    );
+
+  // Get image path from user request
+  const { avatar } = req.files;
+
+  try {
+    // Check for currently logged in user
+    const userAvailable = await User.findById(req.user.userId);
+
+    // Creates uploads directory if it does not exist already
+    const uploadsDir = path.join(__dirname, "..", "uploads");
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir);
+    }
+
+    // Check existence of avatar from user request
+    if (avatar) {
+      // Delete previous avatar if exists
+      if (userAvailable.avatar) {
+        fs.unlinkSync(path.join(uploadsDir, userAvailable.avatar), (err) => {
+          if (err) {
+            return next(
+              res
+                .status(401)
+                .json({ message: "Failed to remove previous profile image" })
+            );
+          }
+        });
+      }
+
+      // Check file size
+      if (avatar.size > 500000) {
+        return res
+          .status(403)
+          .json({ message: "File size too big, try a different file" });
+      }
+
+      // Split file name on dot (".")
+      const splittedFileName = avatar.name.split(".");
+      // Add random characters between the file from the user and the file extension
+      const newFileName =
+        splittedFileName[0] +
+        uuid() +
+        "." +
+        splittedFileName[splittedFileName.length - 1];
+
+      // Move avatar to uploads directory
+       avatar.mv(path.join(uploadsDir, newFileName), async (err) => {
+        if (err) {
+          console.error("Error moving avatar:", err);
+          throw new Error(err);
+        }
+
+        // Update user
+        await User.findByIdAndUpdate(
+          req.user.userId,
+          { avatar: newFileName },
+          { new: true }
+        );
+      });
+
+      // Successul
+      // if (userAvailable.avatar === newFileName) {
+        res.status(200).json({
+          message: "Profile details updated successfully",
+          newFileName,
+        });
+      // }
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -378,6 +527,8 @@ const approveRequest = asyncHandler(async (req, res, next) => {
 module.exports = {
   createNewUser,
   loginUser,
+  updateUserProfile,
+  updateUserProfileImage,
   logoutUser,
   postNewRequest,
   getAllRequests,
@@ -385,5 +536,5 @@ module.exports = {
   getAllStudentRequests,
   approveRequest,
   googleSignIn,
-  googleSignInCallBack
+  googleSignInCallBack,
 };
