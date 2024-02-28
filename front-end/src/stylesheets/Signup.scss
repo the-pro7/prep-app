@@ -119,3 +119,9 @@
     text-decoration: none;
   }
 }
+
+
+// form cta styles
+.form-cta {
+  @include regularFlex(.4em, unset);
+}

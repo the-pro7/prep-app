@@ -6,7 +6,8 @@ import '../stylesheets/Signin.scss'
 import { Alert } from 'react-bootstrap'
 import { useState, useRef } from 'react'
 import { AVAILABLE_ROLES } from '../contexts/RoleContext'
-
+import {RotatingLines} from "react-loader-spinner"
+ 
 const Signin = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -143,7 +144,9 @@ const Signin = () => {
               ref={passwordRef}
             />
           </div>
-          <button type='submit' disabled={loading}>
+          <button type='submit' disabled={loading} className='form-cta'>
+          {loading && <RotatingLines visible height="20" width="20" strokeWidth="2" strokeColor="#fff"
+            />}
             {loading ? 'Signing In...' : 'Next'}
           </button>
         </div>

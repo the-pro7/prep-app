@@ -1,11 +1,12 @@
 @import "./config";
 // Frequent
 $shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
+$lightened-grey: lighten($general-grey, 50%);
 
 // User profile styles
 .user-profile {
   height: 100dvh;
-  //   border: 3px solid red;
+  // border: 3px solid red;
   display: flex;
   gap: 2em;
 
@@ -58,29 +59,45 @@ $shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
 
     // User avatar
     .user-avatar {
-        border-radius: 50%;
+      border-radius: 50%;
       @include regularFlex(unset, unset);
       flex-direction: column;
-      gap: .5em;
-    
-        // Every direct child of .user-avatar
+      gap: 0.5em;
 
-        form {
-            input[type="file"] {
-                display: none;
-            }
+      // Every direct child of .user-avatar
 
-            // Label/button
-            .edit-image-cta {
-                background-color: #fff;
-                box-sizing: $shadow;
-                padding: .5em 1em;
-                border-radius: 40px;
-            }
+      .edit-profile-image-form {
+        @include regularFlex(1em, unset);
+
+        input[type="file"] {
+          display: none;
         }
 
-         // First image styles
-    img {
+        // Label/button
+        .edit-image-cta {
+          @include freqButtonStyles;
+        }
+
+        .edit-image-cta.sleep {
+          background-color: $lightened-grey;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+
+        // Upload image file cta
+        .upload-image-cta {
+          @include freqButtonStyles;
+
+
+          &:disabled {
+            background-color: $lightened-grey;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      // First image styles
+      img {
         border: 5px solid #fff;
         filter: drop-shadow($shadow);
       }
@@ -109,8 +126,6 @@ $shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
         box-shadow: $shadow;
       }
     }
-
-   
   }
 
   // Bottom buttons
@@ -153,6 +168,13 @@ $shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
 .user-profile__profile {
   flex: 1;
 
+  //   Response message
+  .response-message {
+    padding: 1em;
+    text-decoration: center;
+    // outline: 3px solid co;
+  }
+
   .avatar-container {
     // border: 3px solid red;
 
@@ -193,8 +215,8 @@ $shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
 .data-form {
   width: 80%;
   margin: 2em;
-  padding: .5em;
-//   height: 40vh;
+  padding: 0.5em;
+  //   height: 40vh;
 
   .form-groups {
     display: grid;
@@ -204,35 +226,34 @@ $shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
     margin-bottom: 1em;
 
     .form-group {
-        display: flex;
-        flex-direction: column;
+      display: flex;
+      flex-direction: column;
 
-        input[name="oldPassword"]:disabled {
-            outline-color: lighten($general-grey, 50%);
-            cursor: not-allowed;
-        }
+      input[name="newPassword"]:disabled {
+        outline-color: lighten($general-grey, 50%);
+        cursor: not-allowed;
+      }
 
-
-        input {
-            padding: .7em;
-            border: 0;
-            border-radius: .3rem;
-            outline: 2px solid #339af0;
-        }
+      input {
+        padding: 0.7em;
+        border: 0;
+        border-radius: 0.3rem;
+        outline: 2px solid #339af0;
+      }
     }
   }
 
   .update-button {
-    padding: .7em 1em;
-    border-radius: .5rem;
+    padding: 0.7em 1em;
+    border-radius: 0.5rem;
     cursor: pointer;
     background-color: #339af0;
     color: #fff;
     transition: all 300ms ease;
-    
+
     &:hover {
-        transform: translateY(-5px);
-        box-shadow: $shadow;
+      transform: translateY(-5px);
+      box-shadow: $shadow;
     }
   }
 
@@ -240,6 +261,4 @@ $shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
     background-color: lighten($general-grey, 50%);
     cursor: not-allowed;
   }
-
-
 }

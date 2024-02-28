@@ -1,5 +1,5 @@
 import "../../stylesheets/UserProfile.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // Icons
 import { IoMdMore } from "react-icons/io";
@@ -26,6 +26,7 @@ const UserProfile = () => {
   const [currentClass, setCurrentClass] = useState("");
   const [hobby, setHobby] = useState("");
   const [favoriteSubject, setFavoriteSubject] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [passwords, setPasswords] = useState({
     oldPassword: "",
@@ -42,11 +43,20 @@ const UserProfile = () => {
     setTimeout(() => setMessage({ message: "", type: "" }), 1500);
   };
 
+  // Basic logic
+  useEffect(() => {
+    if (!avatar) {
+      setIsImageChosen(false);
+    } else setIsImageChosen(true);
+  }, [avatar]);
+
   // Function to update user profile image
   const handleUserProfileImageUpdate = async (e) => {
     e.preventDefault();
 
-    if (!avatar) return showMessage("No image chosen", "error");
+    if (!avatar) {
+      return showMessage("No image chosen", "error");
+    }
 
     const formData = new FormData();
     formData.append("avatar", avatar);
@@ -72,9 +82,13 @@ const UserProfile = () => {
         "user",
         JSON.stringify({ ...user, avatar: data.newFileName })
       ); // Update localStorage with new data
+      setAvatar("");
       showMessage("Profile image updated successfully", "success");
     } catch (error) {
       showMessage(error.message, "error");
+    } finally {
+      setIsImageChosen(false);
+      setAvatar("");
     }
   };
 
@@ -86,6 +100,10 @@ const UserProfile = () => {
       return showMessage("New and old passwords are the same", "error");
     }
 
+    if (!name || !email || !passwords.newPassword) {
+      return showMessage("You haven't updated any credential!");
+    }
+
     const formData = {
       name: name,
       email: email,
@@ -93,6 +111,7 @@ const UserProfile = () => {
     };
 
     try {
+      setLoading(true);
       const response = await fetch(
         "http://localhost:5003/api/users/update-profile",
         {
@@ -105,7 +124,10 @@ const UserProfile = () => {
         }
       );
 
-      if (!response.ok) throw new Error("Failed to update profile");
+      if (!response.ok) {
+        setLoading(false);
+        throw new Error("Failed to update profile");
+      }
 
       const data = await response.json();
       setUser((prevUser) => ({
@@ -117,6 +139,9 @@ const UserProfile = () => {
       showMessage("Updated user data successfully", "success");
     } catch (error) {
       showMessage(error.message, "error");
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -137,15 +162,14 @@ const UserProfile = () => {
               className="image-first"
             />
             <form
-              className="edit-profile-image"
+              className="edit-profile-image-form"
               onSubmit={(e) => handleUserProfileImageUpdate(e)}
             >
               <label
                 htmlFor="edit-image"
-                className="edit-image-cta"
-                onClick={() => {
-                  // Some logic bi
-                }}
+                className={`${
+                  isImageChosen ? "edit-image-cta sleep" : "edit-image-cta"
+                }`}
               >
                 <FontAwesomeIcon icon={faEdit} /> Edit
               </label>
@@ -157,7 +181,13 @@ const UserProfile = () => {
                 accept="png, jpg, jpeg, jfif, avif"
                 onChange={(e) => setAvatar(e.target.files[0])}
               />
-              <button type="submit">Change Profile</button>
+              <button
+                type="submit"
+                disabled={!isImageChosen}
+                className="upload-image-cta"
+              >
+                Change Profile
+              </button>
             </form>
           </div>
           <h1>{user.name}</h1>
@@ -180,7 +210,6 @@ const UserProfile = () => {
 
       {/* Profile Area */}
       <div className="user-profile__profile">
-        {message.message && <p>{message.message}</p>}
         {/* Welcome message */}
         <div className="welcome">
           {/* Clock */}
@@ -194,6 +223,9 @@ const UserProfile = () => {
         />
 
         {/* User credentials update */}
+        {message.message && (
+          <p className="response-message">{message.message}</p>
+        )}
         <ProfileUpdateForm
           user={user}
           setName={setName}
@@ -209,6 +241,7 @@ const UserProfile = () => {
           favoriteSubject={favoriteSubject}
           setFavoriteSubject={setFavoriteSubject}
           passwords={passwords}
+          loading={loading}
         />
       </div>
     </div>

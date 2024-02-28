@@ -53,11 +53,22 @@ $font-weights: (
     flex-direction: $direction;
 }
 
+
+// regularly used flex
 @mixin regularFlex($gap, $justify) {
     display: flex;
     align-items: center;
     justify-content: $justify;
     gap: $gap;
+}
+
+// Frequently button styles
+
+@mixin freqButtonStyles {
+    background-color: #fff;
+    box-sizing: $shadow;
+    padding: .5em 1em;
+    border-radius: 40px;
 }
 
 // Colors

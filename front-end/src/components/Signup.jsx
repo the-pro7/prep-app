@@ -7,6 +7,7 @@ import "../stylesheets/Signup.scss";
 import { useState, useRef } from "react";
 import { Alert } from "react-bootstrap";
 import { AVAILABLE_ROLES } from "../contexts/RoleContext";
+import {RotatingLines} from 'react-loader-spinner'
 
 const Signup = () => {
   // These are references to the respective input fields of the form, to allow us to retrieve their value
@@ -170,7 +171,9 @@ const Signup = () => {
               ref={passwordConfirmRef}
             />
           </div>
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="form-cta">
+            {loading && <RotatingLines visible height="20" width="20" strokeWidth="2" strokeColor="#fff"
+            />}
             {loading ? "Creating..." : "Next"}
           </button>
         </div>

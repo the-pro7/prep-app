@@ -1,6 +1,9 @@
 import React from "react";
+// Loaders
+import {RotatingLines} from "react-loader-spinner"
 
 const ProfileUpdateForm = ({
+  loading,
   setName,
   setEmail,
   setPasswords,
@@ -43,7 +46,7 @@ const ProfileUpdateForm = ({
           <input
             type="email"
             value={currentClass}
-            // onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setCurrentClass(e.target.value)}
             placeholder="Enter current class here"
           />
         </div>
@@ -53,6 +56,7 @@ const ProfileUpdateForm = ({
             type="password"
             placeholder="New password (leave blank to keep old password)"
             name="newPassword"
+            disabled={!passwords.oldPassword}
             value={passwords.newPassword}
             onChange={(e) =>
               setPasswords((prev) => ({
@@ -68,7 +72,6 @@ const ProfileUpdateForm = ({
             type="password"
             placeholder="Old password"
             name="oldPassword"
-            disabled={!passwords.newPassword}
             value={passwords.oldPassword}
             onChange={(e) =>
               setPasswords((prev) => ({
@@ -101,10 +104,11 @@ const ProfileUpdateForm = ({
       </div>
       <button
         type="submit"
-        disabled={!name && !email}
-        className="update-button"
+        disabled={!name && !email || loading}
+        className="update-button form-cta"
       >
-        Update Profile
+        {loading && <RotatingLines strokeColor="#fff" width="20" height="20"/>}
+        {loading ? "Updating Profile" : "Update Profile"}
       </button>
     </form>
   );

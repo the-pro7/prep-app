@@ -207,6 +207,10 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
     // Get new details from request body
     const { name, email, password } = req.body;
 
+    if(!name || !email) {
+      throw new Error("Missing credentials to update try again!")
+    }
+
     // Find user with provided ID
     const userAvailable = await User.findById(req.user.userId);
 
@@ -237,7 +241,11 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
       message: "Profile details updated successfully",
-      user: userAvailable,
+      user: {
+        _id: userAvailable._id,
+        name: userAvailable.name,
+        email: userAvailable.email,
+      },
     });
   } catch (error) {
     next(res.status(500).json({ message: error.message }));
