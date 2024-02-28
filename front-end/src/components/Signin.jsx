@@ -11,7 +11,7 @@ const Signin = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
 
-  const user = JSON.parse(localStorage.getItem('user'))
+  // const user = JSON.parse(localStorage.getItem('user'))
 
   // Basic navigation setup
   const navigate = useNavigate()

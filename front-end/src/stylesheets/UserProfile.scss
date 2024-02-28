@@ -1,0 +1,245 @@
+@import "./config";
+// Frequent
+$shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
+
+// User profile styles
+.user-profile {
+  height: 100dvh;
+  //   border: 3px solid red;
+  display: flex;
+  gap: 2em;
+
+  img {
+    width: 200px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+// Sidebar styles
+.user-profile__sidebar {
+  width: 30%;
+  height: 100%;
+  background-color: $light-general-blue;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+  position: relative;
+
+  // Styles for back button
+  .back-button {
+    width: fit-content;
+    width: -moz-fit-content;
+    margin: 1em;
+    padding: 0.6em 1em;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    @include regularFlex(0.5em, center);
+
+    text-decoration: none;
+    display: flex;
+    color: $general-grey;
+    transition: all 300ms ease;
+
+    &:hover {
+      transform: translate(-5px);
+      box-shadow: $shadow;
+    }
+  }
+
+  //   Styles for user class
+  .user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5em;
+    margin: 1em;
+    border-radius: 0.5rem;
+
+    // User avatar
+    .user-avatar {
+        border-radius: 50%;
+      @include regularFlex(unset, unset);
+      flex-direction: column;
+      gap: .5em;
+    
+        // Every direct child of .user-avatar
+
+        form {
+            input[type="file"] {
+                display: none;
+            }
+
+            // Label/button
+            .edit-image-cta {
+                background-color: #fff;
+                box-sizing: $shadow;
+                padding: .5em 1em;
+                border-radius: 40px;
+            }
+        }
+
+         // First image styles
+    img {
+        border: 5px solid #fff;
+        filter: drop-shadow($shadow);
+      }
+    }
+
+    // User name styles
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      text-align: center;
+    }
+
+    // more info accordion
+    .show-more {
+      width: 100%;
+      margin: 1em;
+      background-color: #fff;
+      padding: 1em;
+      border-radius: 0.5rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 300ms ease;
+      @include regularFlex(unset, space-between);
+
+      &:hover {
+        transform: translateX(5px);
+        box-shadow: $shadow;
+      }
+    }
+
+   
+  }
+
+  // Bottom buttons
+  .bottom-actions {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 2em;
+    @include regularFlex(1em, unset);
+
+    // Logout button
+    .logout-button {
+      padding: 0.7em 2em;
+      background-color: $background-color-danger;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      color: $danger-color;
+      @include regularFlex(0.5em, unset);
+
+      .logout-icon {
+        transform: rotate(180deg);
+        scale: 1.3;
+      }
+    }
+
+    // More button
+    .more-button {
+      font-weight: bold;
+      @include regularFlex(0.3em, unset);
+
+      // Icon
+      .more-icon {
+        scale: 1.3;
+      }
+    }
+  }
+}
+
+// Actual user profile
+.user-profile__profile {
+  flex: 1;
+
+  .avatar-container {
+    // border: 3px solid red;
+
+    .image-second {
+      border: 5px solid #339af0;
+    }
+  }
+}
+// Welcome styles
+.welcome {
+  display: flex;
+  justify-content: space-between;
+
+  .welcome-message {
+    width: 55%;
+    border: 2px solid red;
+
+    h2 {
+      width: 50%;
+    }
+  }
+}
+
+// Clock
+.clock {
+  //   margin-left: auto;
+  margin: 0.7em 2em 0.7em auto;
+  padding: 0.5em;
+
+  p {
+    margin: 0;
+    font-size: 1.3em;
+    color: lighten($general-grey, 20%);
+  }
+}
+
+// Credentials update form
+.data-form {
+  width: 80%;
+  margin: 2em;
+  padding: .5em;
+//   height: 40vh;
+
+  .form-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    align-items: center;
+    gap: 2em;
+    margin-bottom: 1em;
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+
+        input[name="oldPassword"]:disabled {
+            outline-color: lighten($general-grey, 50%);
+            cursor: not-allowed;
+        }
+
+
+        input {
+            padding: .7em;
+            border: 0;
+            border-radius: .3rem;
+            outline: 2px solid #339af0;
+        }
+    }
+  }
+
+  .update-button {
+    padding: .7em 1em;
+    border-radius: .5rem;
+    cursor: pointer;
+    background-color: #339af0;
+    color: #fff;
+    transition: all 300ms ease;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $shadow;
+    }
+  }
+
+  .update-button:disabled {
+    background-color: lighten($general-grey, 50%);
+    cursor: not-allowed;
+  }
+
+
+}

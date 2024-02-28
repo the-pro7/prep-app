@@ -1,13 +1,32 @@
-import { faAngleLeft, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import "../../stylesheets/UserProfile.scss";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+// Icons
+import { IoMdMore } from "react-icons/io";
+import { IoExitOutline } from "react-icons/io5";
+import {
+  faAngleLeft,
+  faAngleDown,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// Components
+import ProfileUpdateForm from "./ProfileUpdateForm";
+import ProfileClock from "./ProfileClock";
+import ProfileAvatar from "./ProfileHeader";
 
 const UserProfile = () => {
+  // Other extracted state
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const token = localStorage.getItem("token");
+  // General state
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
+  const [currentClass, setCurrentClass] = useState("");
+  const [hobby, setHobby] = useState("");
+  const [favoriteSubject, setFavoriteSubject] = useState("");
+
   const [passwords, setPasswords] = useState({
     oldPassword: "",
     newPassword: "",
@@ -15,15 +34,15 @@ const UserProfile = () => {
   const [avatar, setAvatar] = useState("");
   const [message, setMessage] = useState({ message: "", type: "" });
 
-  // useEffect(() => {
-  //   setUser(JSON.parse(localStorage.getItem("user")));
-  // }, []);
+  //State to show or hide edit or save image buttons
+  const [isImageChosen, setIsImageChosen] = useState(false);
 
   const showMessage = (message, type) => {
     setMessage({ message, type });
     setTimeout(() => setMessage({ message: "", type: "" }), 1500);
   };
 
+  // Function to update user profile image
   const handleUserProfileImageUpdate = async (e) => {
     e.preventDefault();
 
@@ -59,6 +78,7 @@ const UserProfile = () => {
     }
   };
 
+  // Function to update user profile credentials
   const handleUserProfileUpdate = async (e) => {
     e.preventDefault();
 
@@ -104,103 +124,92 @@ const UserProfile = () => {
     <div className="user-profile">
       {/* Sidebar */}
       <aside className="user-profile__sidebar">
-        <Link to={-1}>
+        <Link to={-1} className="back-button">
           <FontAwesomeIcon icon={faAngleLeft} />
+          Back
         </Link>
-        <div className="user-profile__welcome">
-          <div className="user">
-            <h1>{user.name}</h1>
-            <span>{user.email}</span>
+        {/* <div className="user-profile__welcome"> */}
+        <div className="user">
+          <div className="user-avatar">
+            <img
+              src={`http://localhost:5003/uploads/${user.avatar}`}
+              alt="Your avatar"
+              className="image-first"
+            />
+            <form
+              className="edit-profile-image"
+              onSubmit={(e) => handleUserProfileImageUpdate(e)}
+            >
+              <label
+                htmlFor="edit-image"
+                className="edit-image-cta"
+                onClick={() => {
+                  // Some logic bi
+                }}
+              >
+                <FontAwesomeIcon icon={faEdit} /> Edit
+              </label>
+              <input
+                type="file"
+                className="edit-image"
+                id="edit-image"
+                name="avatar"
+                accept="png, jpg, jpeg, jfif, avif"
+                onChange={(e) => setAvatar(e.target.files[0])}
+              />
+              <button type="submit">Change Profile</button>
+            </form>
           </div>
-          <h2>Welcome to your profile!</h2>
-          <summary>
-            Go ahead and apply changes to your profile. Changes will be applied
-            almost instantly to your profile in your dashboard, and your prep
-            admin will also have your profile updated on their end.
-          </summary>
+          <h1>{user.name}</h1>
+          <span>Email: {user.email}</span>
+          <span className="show-more">
+            Show more info <FontAwesomeIcon icon={faAngleDown} />{" "}
+          </span>
         </div>
+        <div className="bottom-actions">
+          <button className="logout-button">
+            <IoExitOutline className="logout-icon" /> Logout
+          </button>
+          <span className="more-button">
+            {" "}
+            <IoMdMore className="more-icon" /> More
+          </span>
+        </div>
+        {/* </div> */}
       </aside>
 
-      {/* Profile */}
+      {/* Profile Area */}
       <div className="user-profile__profile">
         {message.message && <p>{message.message}</p>}
-        <div className="avatar-container">
-          <img
-            src={`http://localhost:5003/uploads/${user.avatar}`}
-            alt="Your profile image"
-          />
-          <form
-            className="edit-profile-image"
-            onSubmit={(e) => handleUserProfileImageUpdate(e)}
-          >
-            <label htmlFor="edit-image">
-              <FontAwesomeIcon icon={faEdit} />
-            </label>
-            <input
-              type="file"
-              className="edit-image"
-              id="edit-image"
-              name="avatar"
-              accept="png, jpg, jpeg, jfif"
-              onChange={(e) => setAvatar(e.target.files[0])}
-            />
-            <button type="submit">Change Profile</button>
-          </form>
+        {/* Welcome message */}
+        <div className="welcome">
+          {/* Clock */}
+          <ProfileClock />
         </div>
+        {/* Avatar container */}
+        <ProfileAvatar
+          user={user}
+          setAvatar={setAvatar}
+          handleUserProfileImageUpdate={handleUserProfileImageUpdate}
+        />
 
-        <form className="data-container" onSubmit={handleUserProfileUpdate}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={user.name}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={user.email}
-            />
-          </div>
-          <p>Change password</p>
-          <div className="form-group">
-            <label htmlFor="oldPassword">Old Password</label>
-            <input
-              type="password"
-              placeholder="Old password"
-              name="oldPassword"
-              value={passwords.oldPassword}
-              onChange={(e) =>
-                setPasswords((prev) => ({
-                  ...prev,
-                  oldPassword: e.target.value,
-                }))
-              }
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="newPassword">New Password</label>
-            <input
-              type="password"
-              placeholder="New password"
-              name="newPassword"
-              value={passwords.newPassword}
-              onChange={(e) =>
-                setPasswords((prev) => ({
-                  ...prev,
-                  newPassword: e.target.value,
-                }))
-              }
-            />
-          </div>
-          <button type="submit">Update Profile</button>
-        </form>
+        {/* User credentials update */}
+        <ProfileUpdateForm
+          user={user}
+          setName={setName}
+          setEmail={setEmail}
+          setPasswords={setPasswords}
+          handleUserProfileUpdate={handleUserProfileImageUpdate}
+          name={name}
+          email={email}
+          currentClass={currentClass}
+          setCurrentClass={setCurrentClass}
+          hobby={hobby}
+          setHobby={setHobby}
+          favoriteSubject={favoriteSubject}
+          setFavoriteSubject={setFavoriteSubject}
+          passwords={passwords}
+        />
       </div>
     </div>
   );

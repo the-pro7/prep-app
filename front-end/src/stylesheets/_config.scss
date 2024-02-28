@@ -52,3 +52,16 @@ $font-weights: (
     gap: $gap;
     flex-direction: $direction;
 }
+
+@mixin regularFlex($gap, $justify) {
+    display: flex;
+    align-items: center;
+    justify-content: $justify;
+    gap: $gap;
+}
+
+// Colors
+$general-grey: #495057;
+$light-general-blue: #a5d8ff83;
+$background-color-danger: #ffc9c9;
+$danger-color: #e03131;
