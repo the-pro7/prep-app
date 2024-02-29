@@ -1,7 +1,7 @@
 import React from 'react'
 import './stylesheets/App.scss'
 // Route helpers
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Router } from 'react-router-dom'
 // App components
 import Signup from './components/Signup'
 import Signin from './components/Signin'
@@ -16,6 +16,9 @@ import NotFound from './components/NotFound'
 import Request from './components/request/Request'
 // User profile component
 import UserProfile from './components/profile/UserProfile'
+// Forgot password components
+import { ForgotPasswordPage } from './components/forgot-password/ForgotPasswordPage'
+import ReceiveOtp from './components/forgot-password/ReceiveOtp'
 
 const App = () => {
   // Get user role
@@ -74,6 +77,11 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
+            {/* Forgot password routes */}
+            <Route path='/forgot-password' element={<ForgotPasswordPage />}/>
+            <Route path='/confirm-otp' element={<ReceiveOtp />}/>
+
             {/* 404 / Not found route, for pages/ routes that are not included in the routes above */}
             <Route path='*' element={<NotFound />} />
             {/* <Route path='/:dashboard-type/:dashboardUser/undefined' element={<NotFound />} /> */}

@@ -118,5 +118,13 @@
                 text-decoration: none;
             }
         }
+
+        .forgot-password {
+            margin: 0 auto;
+            font-weight: weights(medium);
+            .link {
+                text-decoration: none !important;
+            }
+        }
     }
 }

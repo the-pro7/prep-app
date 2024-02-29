@@ -24,6 +24,14 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
+
+
+// app.use(((req, res, next)=>{
+//   res.setHeader("Access-Control-Allow-Origin", cross-origin)
+//   res.
+//   next();
+// }))
+
 // Allows express to use json data
 app.use(express.json());
 // Allows express to take and use data from form inputs from the frontend

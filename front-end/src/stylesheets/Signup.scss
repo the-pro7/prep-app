@@ -90,6 +90,7 @@
 .other-sign-in-methods {
   display: grid;
   width: fit-content;
+  width: -moz-fit-content;
   margin: 0 auto;
   gap: 0.5em;
   place-content: center;

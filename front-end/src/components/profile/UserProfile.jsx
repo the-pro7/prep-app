@@ -1,21 +1,12 @@
 import "../../stylesheets/UserProfile.scss";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-// Icons
-import { IoMdMore } from "react-icons/io";
-import { IoExitOutline } from "react-icons/io5";
-import {
-  faAngleLeft,
-  faAngleDown,
-  faEdit,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import ProfileUpdateForm from "./ProfileUpdateForm";
 import ProfileClock from "./ProfileClock";
 import ProfileAvatar from "./ProfileHeader";
-
+import ProfileSidebar from "./ProfileSidebar";
 
 const UserProfile = () => {
   // Other extracted state
@@ -36,6 +27,7 @@ const UserProfile = () => {
   const [avatar, setAvatar] = useState("");
   const [message, setMessage] = useState({ message: "", type: "" });
   // General state end
+  const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
   //State to show or hide edit or save image buttons
   const [isImageChosen, setIsImageChosen] = useState(false);
@@ -67,7 +59,7 @@ const UserProfile = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5003/api/users/update-profile-image",
+        `${BASE_URL}/update-profile-image`,
         {
           method: "PUT",
           body: formData,
@@ -110,13 +102,15 @@ const UserProfile = () => {
     const formData = {
       name: name,
       email: email,
+      hobby,
+      favoriteSubject,
       password: passwords.newPassword,
     };
 
     try {
       setLoading(true);
       const response = await fetch(
-        "http://localhost:5003/api/users/update-profile",
+        `${BASE_URL}/update-profile`,
         {
           method: "PUT",
           headers: {
@@ -138,6 +132,8 @@ const UserProfile = () => {
         ...prevUser,
         name: userData.name,
         email: userData.email,
+        hobby: userData.hobby,
+        favoriteSubject: userData.favoriteSubject,
       }));
       localStorage.setItem("user", JSON.stringify(user));
       console.log(data);
@@ -153,8 +149,8 @@ const UserProfile = () => {
   // Logout user
   const logoutUser = async () => {
     try {
-      setLoading(true)
-      let response = await fetch("http://localhost:5003/api/users/logout");
+      setLoading(true);
+      let response = await fetch(`${BASE_URL}/logout`);
 
       if (!response.ok)
         console.log("Failed to logout user", response.statusText);
@@ -166,74 +162,23 @@ const UserProfile = () => {
 
       navigate("/login");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
   return (
     <div className="user-profile">
       {/* Sidebar */}
-      <aside className="user-profile__sidebar">
-        <Link to={-1} className="back-button">
-          <FontAwesomeIcon icon={faAngleLeft} />
-          Back
-        </Link>
-        {/* <div className="user-profile__welcome"> */}
-        <div className="user">
-          <div className="user-avatar">
-            <img
-              src={`http://localhost:5003/uploads/${user.avatar}`}
-              alt="Your avatar"
-              className="image-first"
-            />
-            <form
-              className="edit-profile-image-form"
-              onSubmit={(e) => handleUserProfileImageUpdate(e)}
-            >
-              <label
-                htmlFor="edit-image"
-                className={`${
-                  isImageChosen ? "edit-image-cta sleep" : "edit-image-cta"
-                }`}
-              >
-                <FontAwesomeIcon icon={faEdit} /> Edit
-              </label>
-              <input
-                type="file"
-                className="edit-image"
-                id="edit-image"
-                name="avatar"
-                accept="png, jpg, jpeg, jfif, avif, webp"
-                onChange={(e) => setAvatar(e.target.files[0])}
-              />
-              <button
-                type="submit"
-                disabled={!isImageChosen}
-                className="upload-image-cta"
-              >
-                Change Image
-              </button>
-            </form>
-          </div>
-          <h1>{user.name}</h1>
-          <span>Email: {user.email}</span>
-          <span className="show-more">
-            Show more info <FontAwesomeIcon icon={faAngleDown} />{" "}
-          </span>
-        </div>
-        <div className="bottom-actions">
-          <button className="logout-button" onClick={logoutUser}>
-            <IoExitOutline className="logout-icon" /> Logout
-          </button>
-          <span className="more-button">
-            {" "}
-            <IoMdMore className="more-icon" /> More
-          </span>
-        </div>
-        {/* </div> */}
-      </aside>
+
+      <ProfileSidebar
+        user={user}
+        setAvatar={setAvatar}
+        isImageChosen={isImageChosen}
+        logoutUser={logoutUser}
+        handleUserProfileImageUpdate={handleUserProfileImageUpdate}
+      />
 
       {/* Profile Area */}
       <div className="user-profile__profile">

@@ -33,6 +33,9 @@ const DashboardSideNavigation = ({
   // Get user role from local storage
   const role = localStorage.getItem("role");
 
+  // Grab uploads URL from .env file
+  const UPLOADS_URL = import.meta.env.VITE_APP_UPLOADS_URL;
+
   // Function to handle logging out of currently active users
   const logoutUser = async () => {
     try {
@@ -56,7 +59,11 @@ const DashboardSideNavigation = ({
       <div className="profile">
         <div className="profile__image">
           {user?.avatar ? (
-            <img src={`http://localhost:5003/uploads/${user.avatar}`} alt="Your avatar" className="profile__image-img" />
+            <img
+              src={`${UPLOADS_URL}/${user.avatar}`}
+              alt="Your avatar"
+              className="profile__image-img"
+            />
           ) : (
             <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.5rem" }} />
           )}

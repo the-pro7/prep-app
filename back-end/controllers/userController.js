@@ -9,45 +9,48 @@ const { genSalt, hash, compare } = require("bcrypt");
 const passport = require("passport");
 const { v4: uuid } = require("uuid");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const otpGenerator = require("otp-generator")
 
 // Google signup
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: process.env.CLIENT_ID,
-//       clientSecret: process.env.CLIENT_SECRET,
-//       callbackURL: "auth/google/callback",
-//     },
-//     function (accessToken, refrechToken, profile, done) {
-//       User.findOne({ googleId: profile.id }, async (error, existingUser) => {
-//         if (err) return done(error, false);
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: "auth/google/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      User.findOne({ googleId: profile.id }, async (error, existingUser) => {
+        if (err) return done(error, false);
 
-//         // Check if user exists and rerturn user
-//         if (existingUser) {
-//           return done(null, existingUser);
-//         } else {
-//           // Create a new user
-//           const newUser = new User({
-//             name: profile.name,
-//             email: profile.emails[0].value,
-//             googleId: profile.id
-//           })
+        // Check if user exists and rerturn user
+        if (existingUser) {
+          return done(null, existingUser);
+        } else {
+          // Create a new user
+          const newUser = new User({
+            name: profile.name,
+            email: profile.emails[0].value,
+            googleId: profile.id
+          })
 
-//           await newUser.save((error) => {
-//               if (error) return done(error, null)
+          await newUser.save((error) => {
+              if (error) return done(error, null)
 
-//               // Saved user successfully
-//               return done(null, newUser)
-//           })
-//         }
-//       });
-//     }
-//   )
-// );
+              // Saved user successfully
+              return done(null, newUser)
+          })
+        }
+      });
+    }
+  )
+);
 
 const googleSignIn = passport.authenticate("google", {
   scope: ["profile", "email"],
 });
+
+
 const googleSignInCallBack = passport.authenticate("google", {
   successRedirect: "/dashboard",
   failureRedirect: "/login",
@@ -205,9 +208,10 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
   // Try update logic
   try {
     // Get new details from request body
-    let { name, email, oldPassword, newPassword } = req.body;
+    let { name, email, hobby, favoriteSubject, oldPassword, newPassword } =
+      req.body;
 
-    if (!name || !email) {
+    if (!name || !email || !hobby || !favoriteSubject) {
       throw new Error("Missing credentials to update try again!");
     }
 
@@ -236,6 +240,8 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
       {
         name: name ? name : userAvailable.name,
         email: email ? email : userAvailable.email,
+        hobby,
+        favoriteSubject,
         password: newPasswordHashed,
       },
       { new: true }
@@ -247,10 +253,12 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
         _id: userAvailable._id,
         name: userAvailable.name,
         email: userAvailable.email,
+        hobby: userAvailable.hobby,
+        favoriteSubject: userAvailable.favoriteSubject,
       },
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(res.status(error.statusCode || 500).json({ message: error.message }));
   }
 });
@@ -337,6 +345,28 @@ const updateUserProfileImage = asyncHandler(async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+});
+
+// @router /api/users/forgot-password
+// @access PUBLIC
+// @desc Send OTP to user email
+
+const sendOtpToEmail = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+
+  if (!email) {
+    throw new Error("Where's your email, please?");
+  }
+
+  const userExits = await User.findOne({ email });
+
+  if (!userExits) {
+    throw new Error("No email in our database matches the email you provided");
+  }
+
+
+
+
 });
 
 // @route /api/users/logout

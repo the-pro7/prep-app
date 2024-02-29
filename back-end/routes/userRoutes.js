@@ -34,8 +34,8 @@ router.put("/update-profile", authenticate, updateUserProfile);
 router.put("/update-profile-image", authenticate, updateUserProfileImage);
 
 // Google signup route
-router.post("auth/google", googleSignIn);
-router.post("auth/google/callback", googleSignInCallBack);
+router.get("/auth/google", googleSignIn);
+router.get("/auth/google/callback", googleSignInCallBack);
 
 // Request routes
 router.post("/new-request/:id", authenticate, postNewRequest);

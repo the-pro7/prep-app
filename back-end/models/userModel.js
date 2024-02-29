@@ -19,11 +19,15 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true
     },
+    otp: {
+      type: String, 
+      required: false
+    },
     hobby: {
       type: String,
       required: false
     },
-    favouriteSubject: {
+    favoriteSubject: {
       type: String,
       required: false
     },

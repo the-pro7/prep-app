@@ -62,6 +62,13 @@ $font-weights: (
     gap: $gap;
 }
 
+@mixin regularFlexTwo($gap, $justify, $align) {
+    display: flex;
+    align-items: $align;
+    justify-content: $justify;
+    gap: $gap;
+}
+
 // Frequently button styles
 
 @mixin freqButtonStyles {
@@ -76,3 +83,7 @@ $general-grey: #495057;
 $light-general-blue: #a5d8ff83;
 $background-color-danger: #ffc9c9;
 $danger-color: #e03131;
+$decent-blue: rgba(0, 162, 255, 0.762);
+
+// Others
+$shadow: 3px 4px 15px rgb(0 0 0 / 0.23);

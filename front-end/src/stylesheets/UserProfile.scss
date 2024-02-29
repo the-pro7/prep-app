@@ -1,6 +1,5 @@
 @import "./config";
 // Frequent
-$shadow: 3px 4px 15px rgb(0 0 0 / 0.23);
 $lightened-grey: lighten($general-grey, 50%);
 
 // User profile styles
@@ -114,16 +113,30 @@ $lightened-grey: lighten($general-grey, 50%);
       width: 100%;
       margin: 1em;
       background-color: #fff;
-      padding: 1em;
+      padding: 1.4em;
       border-radius: 0.5rem;
       font-size: 1.1rem;
       cursor: pointer;
       transition: all 300ms ease;
+      height: 70px;
+      overflow: hidden;
+      display: flex;
+      gap: 1em;
+      flex-direction: column;
+
+      .show-extra-info {
+        font-size: 1.3rem;
       @include regularFlex(unset, space-between);
+      }
 
       &:hover {
+        height: revert;
         transform: translateX(5px);
         box-shadow: $shadow;
+
+        .show-extra-info i {
+          transform: rotate(180deg);
+        }
       }
     }
   }
