@@ -29,7 +29,7 @@ const StudentActivityArea = () => {
       </div>
       <TimeLogged />
       <ul className='time-log-box'>
-        {userLogIns.length ? (
+        {userLogIns?.length ? (
           userLogIns.map((info, index) => (
             <TimeBar
               loggedTime={info.signTime}

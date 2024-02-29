@@ -205,10 +205,10 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
   // Try update logic
   try {
     // Get new details from request body
-    const { name, email, password } = req.body;
+    let { name, email, oldPassword, newPassword } = req.body;
 
-    if(!name || !email) {
-      throw new Error("Missing credentials to update try again!")
+    if (!name || !email) {
+      throw new Error("Missing credentials to update try again!");
     }
 
     // Find user with provided ID
@@ -222,18 +222,20 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
 
     // Initialize password
     let newPasswordHashed;
-    if (password) {
+    if (newPassword) {
       // Create new hashed password if user provides a new password
       let salt = await genSalt(10);
-      newPasswordHashed = await hash(password, salt);
+      newPasswordHashed = await hash(newPassword, salt);
+    } else {
+      newPassword = userAvailable.password;
     }
 
     // Update user
     await User.findByIdAndUpdate(
       req.user.userId,
       {
-        name: name,
-        email: email,
+        name: name ? name : userAvailable.name,
+        email: email ? email : userAvailable.email,
         password: newPasswordHashed,
       },
       { new: true }
@@ -241,14 +243,15 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
       message: "Profile details updated successfully",
-      user: {
+      userData: {
         _id: userAvailable._id,
         name: userAvailable.name,
         email: userAvailable.email,
       },
     });
   } catch (error) {
-    next(res.status(500).json({ message: error.message }));
+    console.log(error)
+    next(res.status(error.statusCode || 500).json({ message: error.message }));
   }
 });
 
@@ -309,7 +312,7 @@ const updateUserProfileImage = asyncHandler(async (req, res, next) => {
         splittedFileName[splittedFileName.length - 1];
 
       // Move avatar to uploads directory
-       avatar.mv(path.join(uploadsDir, newFileName), async (err) => {
+      avatar.mv(path.join(uploadsDir, newFileName), async (err) => {
         if (err) {
           console.error("Error moving avatar:", err);
           throw new Error(err);
@@ -325,10 +328,10 @@ const updateUserProfileImage = asyncHandler(async (req, res, next) => {
 
       // Successul
       // if (userAvailable.avatar === newFileName) {
-        res.status(200).json({
-          message: "Profile details updated successfully",
-          newFileName,
-        });
+      res.status(200).json({
+        message: "Profile details updated successfully",
+        newFileName,
+      });
       // }
     }
   } catch (error) {

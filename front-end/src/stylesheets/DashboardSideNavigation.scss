@@ -38,7 +38,9 @@
             @include flex(center,center, unset, row);
 
             .profile__image-img {
-                border-radius: inherit;
+                width: inherit;
+                aspect-ratio: 1;
+                border-radius: 50%;
             }
         }
 

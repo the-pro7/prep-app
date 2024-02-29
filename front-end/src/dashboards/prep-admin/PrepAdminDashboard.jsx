@@ -1,28 +1,29 @@
-import React, { useEffect } from 'react'
-import DashboardSideNavigation from '../../components/DashboardSideNavigation'
-import { useDashBoardValues } from '../../contexts/DashboardContext'
-import PrepAdminActivityArea from './PrepAdminActivityArea'
-import Attendance from '../../components/attendance/Attendance'
-import AllRequests from '../../components/request/AllRequests'
+import React, { useEffect } from "react";
+import DashboardSideNavigation from "../../components/DashboardSideNavigation";
+import { useDashBoardValues } from "../../contexts/DashboardContext";
+import PrepAdminActivityArea from "./PrepAdminActivityArea";
+import Attendance from "../../components/attendance/Attendance";
+import AllRequests from "../../components/request/AllRequests";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Admin dashboard component
 const PrepAdminDashboard = () => {
   // Extract contextual values
   const { showExtra, updateShowExtra, showAttendances, showAllRequests } =
-    useDashBoardValues()
+    useDashBoardValues();
 
   // Show username section if prep-admin dashboard is active
   useEffect(() => {
-    updateShowExtra(showAttendances)
-  }, [showAttendances, updateShowExtra])
+    updateShowExtra(showAttendances);
+  }, [showAttendances, updateShowExtra]);
 
   //  User based stuff
-  const user = JSON.parse(localStorage.getItem('user'))
+  const user = JSON.parse(localStorage.getItem("user"));
   // Extract user logins
-  let userLogIns = user?.logBarDetails
+  let userLogIns = user?.logBarDetails;
   // console.log('Here are my logins', userLogIns)
   return (
-    <main className='prep-admin-dashboard'>
+    <main className="prep-admin-dashboard">
       <DashboardSideNavigation showAttendanceButton={true} />
       {!showAttendances ? (
         <PrepAdminActivityArea userLogIns={userLogIns} showExtra={showExtra} />
@@ -31,7 +32,7 @@ const PrepAdminDashboard = () => {
       )}
       {showAllRequests && <AllRequests />}
     </main>
-  )
-}
+  );
+};
 
-export default PrepAdminDashboard
+export default PrepAdminDashboard;

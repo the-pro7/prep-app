@@ -1,7 +1,11 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
+import NotFound from '../components/NotFound';
+import { useEffect } from 'react';
 
 const ProtectedRoute = ({ children }) => {
-  const user  = JSON.parse(localStorage.getItem("user"))
+  // Grab user from local storage
+  const user  = JSON.parse(localStorage.getItem("user")) || {}
+
   if (!user) {
     return <Navigate to='/login' />
   }

@@ -5,8 +5,8 @@ import StudentActivityArea from './StudentActivityArea'
 import AllRequests from '../../components/request/AllRequests'
 import { useDashBoardValues } from '../../contexts/DashboardContext'
 
+
 const StudentDashboard = () => {
-  // const { currentUser } = useAuth()
   const {showAllRequests} = useDashBoardValues()
   return (
     <main className='student-dashboard'>

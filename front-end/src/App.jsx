@@ -1,7 +1,10 @@
+import React from 'react'
 import './stylesheets/App.scss'
+// Route helpers
+import { Routes, Route } from 'react-router-dom'
+// App components
 import Signup from './components/Signup'
 import Signin from './components/Signin'
-import { Routes, Route } from 'react-router-dom'
 import AccountOptions from './components/account-options/AccountOptions'
 import RoleProvider from './contexts/RoleContext'
 import DashboardProvider from './contexts/DashboardContext'
@@ -11,15 +14,15 @@ import PrepAdminDashboard from './dashboards/prep-admin/PrepAdminDashboard'
 import HostelTutorDashboard from './dashboards/hostel-tutor/HostelTutorDashboard'
 import NotFound from './components/NotFound'
 import Request from './components/request/Request'
+// User profile component
 import UserProfile from './components/profile/UserProfile'
-import React from 'react'
-// Lazily ;oaded components
-// const UserProfile = React.lazy(() => import("./components/profile/UserProfile"))
-// const NotFound = React.lazy(() => import("./components/NotFound"))
 
 const App = () => {
   // Get user role
   const role = localStorage.getItem("role")
+
+
+
   return (
     <>
       {/* <AuthProvider> */}
@@ -73,6 +76,7 @@ const App = () => {
             />
             {/* 404 / Not found route, for pages/ routes that are not included in the routes above */}
             <Route path='*' element={<NotFound />} />
+            {/* <Route path='/:dashboard-type/:dashboardUser/undefined' element={<NotFound />} /> */}
           </Routes>
         </DashboardProvider>
       </RoleProvider>

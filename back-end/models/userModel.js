@@ -19,6 +19,14 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true
     },
+    hobby: {
+      type: String,
+      required: false
+    },
+    favouriteSubject: {
+      type: String,
+      required: false
+    },
     googleId: {
       type: String
     },

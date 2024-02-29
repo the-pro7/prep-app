@@ -1,6 +1,6 @@
 import "../../stylesheets/UserProfile.scss";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // Icons
 import { IoMdMore } from "react-icons/io";
 import { IoExitOutline } from "react-icons/io5";
@@ -16,13 +16,14 @@ import ProfileUpdateForm from "./ProfileUpdateForm";
 import ProfileClock from "./ProfileClock";
 import ProfileAvatar from "./ProfileHeader";
 
+
 const UserProfile = () => {
   // Other extracted state
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const token = localStorage.getItem("token");
   // General state
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [name, setName] = useState(user.name || "");
+  const [email, setEmail] = useState(user.email || "");
   const [currentClass, setCurrentClass] = useState("");
   const [hobby, setHobby] = useState("");
   const [favoriteSubject, setFavoriteSubject] = useState("");
@@ -34,6 +35,7 @@ const UserProfile = () => {
   });
   const [avatar, setAvatar] = useState("");
   const [message, setMessage] = useState({ message: "", type: "" });
+  // General state end
 
   //State to show or hide edit or save image buttons
   const [isImageChosen, setIsImageChosen] = useState(false);
@@ -42,6 +44,8 @@ const UserProfile = () => {
     setMessage({ message, type });
     setTimeout(() => setMessage({ message: "", type: "" }), 1500);
   };
+
+  const navigate = useNavigate();
 
   // Basic logic
   useEffect(() => {
@@ -96,12 +100,11 @@ const UserProfile = () => {
   const handleUserProfileUpdate = async (e) => {
     e.preventDefault();
 
-    if (passwords.oldPassword === passwords.newPassword) {
-      return showMessage("New and old passwords are the same", "error");
-    }
-
-    if (!name || !email || !passwords.newPassword) {
-      return showMessage("You haven't updated any credential!");
+    if (name === user.name || email === user.email) {
+      return showMessage(
+        "Your name or email is the same as your previous",
+        "error"
+      );
     }
 
     const formData = {
@@ -130,18 +133,42 @@ const UserProfile = () => {
       }
 
       const data = await response.json();
+      const { message, userData } = data;
       setUser((prevUser) => ({
         ...prevUser,
-        name: data.user.name,
-        email: data.user.email,
+        name: userData.name,
+        email: userData.email,
       }));
       localStorage.setItem("user", JSON.stringify(user));
-      showMessage("Updated user data successfully", "success");
+      console.log(data);
+      showMessage(message, "success");
     } catch (error) {
       showMessage(error.message, "error");
       setLoading(false);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Logout user
+  const logoutUser = async () => {
+    try {
+      setLoading(true)
+      let response = await fetch("http://localhost:5003/api/users/logout");
+
+      if (!response.ok)
+        console.log("Failed to logout user", response.statusText);
+      console.log("User logged out successfully");
+      // Remove user info from local storage
+      localStorage.removeItem("user");
+      // Remove user token from local storage
+      localStorage.removeItem("token");
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -178,7 +205,7 @@ const UserProfile = () => {
                 className="edit-image"
                 id="edit-image"
                 name="avatar"
-                accept="png, jpg, jpeg, jfif, avif"
+                accept="png, jpg, jpeg, jfif, avif, webp"
                 onChange={(e) => setAvatar(e.target.files[0])}
               />
               <button
@@ -186,7 +213,7 @@ const UserProfile = () => {
                 disabled={!isImageChosen}
                 className="upload-image-cta"
               >
-                Change Profile
+                Change Image
               </button>
             </form>
           </div>
@@ -197,7 +224,7 @@ const UserProfile = () => {
           </span>
         </div>
         <div className="bottom-actions">
-          <button className="logout-button">
+          <button className="logout-button" onClick={logoutUser}>
             <IoExitOutline className="logout-icon" /> Logout
           </button>
           <span className="more-button">
@@ -231,7 +258,7 @@ const UserProfile = () => {
           setName={setName}
           setEmail={setEmail}
           setPasswords={setPasswords}
-          handleUserProfileUpdate={handleUserProfileImageUpdate}
+          handleUserProfileUpdate={handleUserProfileUpdate}
           name={name}
           email={email}
           currentClass={currentClass}

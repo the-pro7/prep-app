@@ -14,6 +14,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useDashBoardValues } from "../contexts/DashboardContext";
+// Sinners/Loaders
+import { RotatingLines } from "react-loader-spinner";
 
 const DashboardSideNavigation = ({
   showAttendanceButton,

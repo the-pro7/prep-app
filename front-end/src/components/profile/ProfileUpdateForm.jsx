@@ -20,7 +20,7 @@ const ProfileUpdateForm = ({
   setHobby,
 }) => {
   return (
-    <form className="data-form" onSubmit={handleUserProfileUpdate}>
+    <form className="data-form" onSubmit={(e) => handleUserProfileUpdate(e)}>
       <div className="form-groups">
         <div className="form-group">
           <label htmlFor="name">Name</label>
@@ -44,7 +44,7 @@ const ProfileUpdateForm = ({
         <div className="form-group">
           <label htmlFor="email">Current Class</label>
           <input
-            type="email"
+            type="text"
             value={currentClass}
             onChange={(e) => setCurrentClass(e.target.value)}
             placeholder="Enter current class here"
@@ -84,9 +84,9 @@ const ProfileUpdateForm = ({
         <div className="form-group">
           <label htmlFor="hobby">Your hobby</label>
           <input
-            type="password"
+            type="text"
             placeholder="Any hobbies?"
-            name="oldPassword"
+            name="hobby"
             value={hobby}
             onChange={(e) => setHobby(e.target.value)}
           />
@@ -94,7 +94,7 @@ const ProfileUpdateForm = ({
         <div className="form-group">
           <label htmlFor="newPassword">Favorite subject</label>
           <input
-            type="password"
+            type="text"
             placeholder="Got any favorite subject?..."
             name="favorite-subject"
             value={favoriteSubject}
