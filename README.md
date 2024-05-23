@@ -30,4 +30,4 @@ A prep web app for SOS-HGIC to monitor students' prep attendance
  __Happy Coding fam!__
 
 ## Contact the developers 📧
-The developer's contact information is here.
+Attack me here: [emmanueldeprogrammer@gmail.com]('emmanueldeprogrammer@gmail.com')
